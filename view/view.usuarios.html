@@ -1,0 +1,31 @@
+<div ng-show="sessionForm">
+    <app-main-menu appname="{{appname}}" username="{{username}}"></app-main-menu>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h4>{{titulo}} <small>{{subtitulo}}</small></h4>
+        </div>
+        <div class="panel-body">
+            <app-tool-bar new="true" view="true" edit="true" delete="true" status="true"></app-tool-bar>
+            <div ng-bind-html="alert"></div>
+            <app-grid-bar-usuarios ng-show="formGrid"></app-grid-bar-usuarios>
+            <div class="form" ng-show="formForm">
+                <label>Nombre:
+                <input type="text" class="form-control" placeholder="Nombre..."    ng-model="nombre" ng-readonly="readonly" maxlength="30"/></label><br/>
+                <label>Login:
+                <input type="text" class="form-control" placeholder="Login..."     ng-model="login"  ng-readonly="readonly" maxlength="10"/></label><br/>
+                <label>Password:
+                <input type="password" class="form-control" placeholder="Password..."  ng-model="pass"   ng-readonly="readonly" maxlength="10"/></label><br/>
+                <label>Estado:
+                <select class="form-control" ng-model="status" ng-disabled="disabled">
+                    <option value="ACTIVO">ACTIVO</option>
+                    <option value="INACTIVO">INACTIVO</option>
+                </select></label><br/>
+                <input type="button" class="btn btn-danger  btn-sm" ng-click="nuevoCancel()"  ng-show="nuevoCancelShow"  value="Cancelar"/>
+                <input type="button" class="btn btn-success btn-sm" ng-click="nuevoAcept()"   ng-show="nuevoAceptShow"   value="Aceptar"/>
+                <input type="button" class="btn btn-success btn-sm" ng-click="visualizarAcept()"  ng-show="visualizarAceptShow"   value="Aceptar"/>
+                <input type="button" class="btn btn-danger  btn-sm" ng-click="modificarCancel()" ng-show="modificarCancelShow" value="Cancelar"/>
+                <input type="button" class="btn btn-success btn-sm" ng-click="modificarAcept()"  ng-show="modificarAceptShow"  value="Aceptar"/>
+            </div>
+        </div>
+    </div>
+</div>
