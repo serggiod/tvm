@@ -15,17 +15,30 @@
                         </center>
                 </div>
         		
-                <!-- Libreria de Estilos parea Bootstrap -->
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-                <link rel="stylesheet" href="css/bootstrap-dialog.min.css"/>
-                <link rel="stylesheet" href="css/color-picker.css"/>
-
                 <!-- Librería JS JQuery -->
                 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
                 <!-- Libreria JS Boostrap -->
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+                <link rel="stylesheet" href="css/color-picker.css"/>
+
+                <!-- Librería JS BootstrapDialog -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.6/js/bootstrap-dialog.min.js"></script>
+                <script>
+                        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DEFAULT] = 'INFORMACION';
+                        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_INFO]    = 'INFORMACION';
+                        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_PRIMARY] = 'INFORMACION';
+                        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_SUCCESS] = 'CORRECTO';
+                        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_WARNING] = 'ATENCION';
+                        BootstrapDialog.DEFAULT_TEXTS[BootstrapDialog.TYPE_DANGER]  = 'ERROR';
+                        BootstrapDialog.DEFAULT_TEXTS['OK']      = 'OK';
+                        BootstrapDialog.DEFAULT_TEXTS['CANCEL']  = 'Cancelar';
+                        BootstrapDialog.DEFAULT_TEXTS['CONFIRM'] = 'Confirmar';
+                </script>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.34.6/css/bootstrap-dialog.min.css"/>
+
 
                 <!-- Libreria JS Angular -->
                 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
@@ -42,9 +55,7 @@
                 
                 <!-- Factorias de Aplicación -->
                 <script src="fac/factory.session.js"></script>
-                <script src="fac/factory.login.js"></script>
                 <script src="fac/factory.logout.js"></script>
-                <script src="fac/factory.alerts.js"></script>
                 <script src="fac/factory.password.js"></script>
                 <script src="fac/factory.usuarios.js"></script>
                 
@@ -52,7 +63,7 @@
                 <script src="svc/service.session.js"></script>
                 <script src="svc/service.mainmenu.js"></script>
                 <script src="svc/service.tv_msg.js"></script>
-                <script src="svc/service.usuarios.js"></script>
+
                 
                 <!-- Directivas de Aplicación -->
                 <script src="dir/directive.app-form-login.js"></script>

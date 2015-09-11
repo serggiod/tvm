@@ -16,26 +16,24 @@
             }
         }
         private function login(){
-            $return = '';
             $user = $this->sanitizeString($this->json->user);
             $pass = $this->sanitizeString($this->json->pass);
             $sql  = str_replace(array(':user',':pass'),array($user,$pass),$this->sql_login);
             $query= $this->pdo->prepare($sql);
             $query->execute();
             $user = $query->fetch(PDO::FETCH_OBJ);
+            unset($user->usr_pass);
             if($user->usr_id){
 				$_SESSION['app_status'] = true;
 				$_SESSION['app_user']   = $user->usr_id;
 				$_SESSION['app_time']	= time();
-                $return = 'true';
             } else {
-				unset($_SESSION["app_status"]);
-				unset($_SESSION["app_user"]);
-				unset($_SESSION["app_time"]);
+				if(array_key_exists('app_status',$_SESSION)) unset($_SESSION['app_status']);
+				if(array_key_exists('app_user',$_SESSION)) unset($_SESSION['app_user']);
+				if(array_key_exists('app_time',$_SESSION)) unset($_SESSION['app_time']);
             }
-            
-            header('content-type: text/plain');
-            echo $return;
+            header('content-type: application/json');
+            echo json_encode($user);
         }
         private function userdata(){
             if($this->checkStatus()){

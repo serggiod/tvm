@@ -38,9 +38,9 @@ angular.module('application').factory('SessionFac',function($http,$location,Sess
         },
         sessionStart:function(usr){
             $this=this;
-            $this.setId(usr.id);
-            $this.setNombre(usr.nombre);
-            $this.setEstado(usr.estado);
+            $this.setId(usr.usr_id);
+            $this.setNombre(usr.usr_nombre);
+            $this.setEstado(usr.usr_status);
             $this.setUser(null);
             $this.setPass(null);
             $this.setM(null);

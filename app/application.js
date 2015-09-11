@@ -1,7 +1,5 @@
 angular.module('application',['ngRoute','ngSanitize','ngColorPicker','ngMask']);
 
-/* SERVICIOS */
-
 /* RUTAS */
 angular.module('application').config(function($routeProvider){
     $routeProvider
