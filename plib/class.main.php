@@ -73,7 +73,7 @@
 
 		protected function sanitizePostTime($key=null){
 			$_POST[$key] = filter_var($_POST[$key],FILTER_SANITIZE_STRING);
-			if(!filter_var($_POST[$key],FILTER_VALIDATE_REGEXP,array('options'=>array('regexp'=>'/^(0[0-9]|1[0-9]|2[0-3]):(0[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]):(0[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])$/')))){
+			if(!filter_var($_POST[$key],FILTER_VALIDATE_REGEXP,array('options'=>array('regexp'=>'/^(0[0-9]|1[0-9]|2[0-3]):(0[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]):(0[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])$//')))){
 				$_POST[$key] = null;
 			}
 			return $_POST[$key];

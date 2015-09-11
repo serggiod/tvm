@@ -13,7 +13,8 @@ angular.module('application').factory('LoginFac',function($http,$location,Alerts
             SessionFac.setPass(CryptoJS.MD5($scope.password).toString());
             SessionFac.setM('login');
             $http.post('mdl/login.php',SessionFac.sessionInstance())
-            .success(function(rta){
+            .success(function(rta,status,headers,config,st){
+                console.log(rta,status,headers,config,st);
                 if(rta==='true'){
                     AlertsFac.loginSuccess($scope);
                     SessionFac.setM('userdata');

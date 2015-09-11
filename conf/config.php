@@ -4,7 +4,7 @@
 
 	// Globales.
 	$basePath = str_replace('/conf','',dirname(__FILE__));
-	$baseUrl  = 'http://www.lavallesc.com.ar/tvm';
+	$baseUrl  = 'http://localhost:8080';
     $baseDB   =  'mysql:host=localhost;dbname=lavalles_tvm;';
     $baseUS   = 'lavalles_tvm';
     $basePW   = '11337799';
