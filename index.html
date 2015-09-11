@@ -2,62 +2,71 @@
 <html ng-app="application" lang="es">
 	<head>
                 <meta charset="utf-8"/>
-
 		<title>WEB APPLICATION | Tv Messagges</title>
-		
+                <link rel="stylesheet" href="css/tv.css"/>
+	</head>
+
+	<body class="container container-fluid">
+
+                <!-- Escenario donde se cargan las vistas -->
+                <div ng-view>
+                        <center>
+                                <img src="img/ajax-loader.gif"/>
+                        </center>
+                </div>
+        		
+                <!-- Libreria de Estilos parea Bootstrap -->
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
                 <link rel="stylesheet" href="css/bootstrap-dialog.min.css"/>
-
                 <link rel="stylesheet" href="css/color-picker.css"/>
-                <link rel="stylesheet" href="css/tv.css"/>
 
+                <!-- Librería JS JQuery -->
                 <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+                <!-- Libreria JS Boostrap -->
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+                <!-- Libreria JS Angular -->
                 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
                 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-route.js"></script>
                 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-sanitize.js"></script>
                 <script src="jlib/ngMask.min.js"></script>
                 <script src="jlib/color-picker.js"></script>
-                <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script
-                
-                <script src="jlib/color-picker.js"></script>
 
-	</head>
-	<body class="container container-fluit">
-        
-        <div ng-view></div>
-		
-        <!-- Applicacion -->
-        <script src="app/application.js"></script>
-        
-        <!-- Factorias -->
-        <script src="fac/factory.session.js"></script>
-        <script src="fac/factory.login.js"></script>
-        <script src="fac/factory.logout.js"></script>
-        <script src="fac/factory.alerts.js"></script>
-        <script src="fac/factory.password.js"></script>
-        <script src="fac/factory.usuarios.js"></script>
-        
-        <!-- Servicios -->
-        <script src="svc/service.session.js"></script>
-        <script src="svc/service.mainmenu.js"></script>
-        <script src="svc/service.tv_msg.js"></script>
-        <script src="svc/service.usuarios.js"></script>
-        
-        <!-- Directivas -->
-        <script src="dir/directive.app-form-login.js"></script>
-        <script src="dir/directive.app-grid-bar-tvmsg.js"></script>
-        <script src="dir/directive.app-main-menu.js"></script>
-        <script src="dir/directive.app-nav-bar.js"></script>
-        <script src="dir/directive.app-grid-bar-usuarios.js"></script>
-        
-        <!-- Controladores de Aplicacion -->
-        <script src="ctrl/controller.login.js"></script>
-        <script src="ctrl/controller.logout.js"></script>
-        <script src="ctrl/controller.tv_msg.js"></script>
-        <script src="ctrl/controller.usuarios.js"></script>
-        <script src="ctrl/controller.password.js"></script>
+                <!-- Libreria JS Encriptación -->
+                <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+
+                <!-- Applicacion -->
+                <script src="app/application.js"></script>
+                
+                <!-- Factorias de Aplicación -->
+                <script src="fac/factory.session.js"></script>
+                <script src="fac/factory.login.js"></script>
+                <script src="fac/factory.logout.js"></script>
+                <script src="fac/factory.alerts.js"></script>
+                <script src="fac/factory.password.js"></script>
+                <script src="fac/factory.usuarios.js"></script>
+                
+                <!-- Servicios de Aplicación -->
+                <script src="svc/service.session.js"></script>
+                <script src="svc/service.mainmenu.js"></script>
+                <script src="svc/service.tv_msg.js"></script>
+                <script src="svc/service.usuarios.js"></script>
+                
+                <!-- Directivas de Aplicación -->
+                <script src="dir/directive.app-form-login.js"></script>
+                <script src="dir/directive.app-grid-bar-tvmsg.js"></script>
+                <script src="dir/directive.app-main-menu.js"></script>
+                <script src="dir/directive.app-nav-bar.js"></script>
+                <script src="dir/directive.app-grid-bar-usuarios.js"></script>
+                
+                <!-- Controladores de Aplicacion -->
+                <script src="ctrl/controller.login.js"></script>
+                <script src="ctrl/controller.logout.js"></script>
+                <script src="ctrl/controller.tv_msg.js"></script>
+                <script src="ctrl/controller.usuarios.js"></script>
+                <script src="ctrl/controller.password.js"></script>
 
 	</body>
 </html>
