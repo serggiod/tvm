@@ -11,7 +11,6 @@ angular.module('application')
     // Campos.
 	var user = $('<input id="user" class="form-control" type="text" maxlength="10" placeholder="Usuario" required autofocus/>');
 	var pass = $('<input id="pass" class="form-control" type="password" maxlength="10" placeholder="Password" required/>');
-	
 	var form = $('<div class="form-inline"></div>');
 	form.append(user);
 	form.append(pass);

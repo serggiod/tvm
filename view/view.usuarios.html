@@ -1,31 +1,40 @@
-<div ng-show="sessionForm">
+<div ng-show="formView">
     <app-main-menu appname="{{appname}}" username="{{username}}"></app-main-menu>
     <div class="panel panel-info">
         <div class="panel-heading">
             <h4>{{titulo}} <small>{{subtitulo}}</small></h4>
         </div>
         <div class="panel-body">
-            <app-tool-bar new="true" view="true" edit="true" delete="true" status="true"></app-tool-bar>
-            <div ng-bind-html="alert"></div>
-            <app-grid-bar-usuarios ng-show="formGrid"></app-grid-bar-usuarios>
-            <div class="form" ng-show="formForm">
-                <label>Nombre:
-                <input type="text" class="form-control" placeholder="Nombre..."    ng-model="nombre" ng-readonly="readonly" maxlength="30"/></label><br/>
-                <label>Login:
-                <input type="text" class="form-control" placeholder="Login..."     ng-model="login"  ng-readonly="readonly" maxlength="10"/></label><br/>
-                <label>Password:
-                <input type="password" class="form-control" placeholder="Password..."  ng-model="pass"   ng-readonly="readonly" maxlength="10"/></label><br/>
-                <label>Estado:
-                <select class="form-control" ng-model="status" ng-disabled="disabled">
-                    <option value="ACTIVO">ACTIVO</option>
-                    <option value="INACTIVO">INACTIVO</option>
-                </select></label><br/>
-                <input type="button" class="btn btn-danger  btn-sm" ng-click="nuevoCancel()"  ng-show="nuevoCancelShow"  value="Cancelar"/>
-                <input type="button" class="btn btn-success btn-sm" ng-click="nuevoAcept()"   ng-show="nuevoAceptShow"   value="Aceptar"/>
-                <input type="button" class="btn btn-success btn-sm" ng-click="visualizarAcept()"  ng-show="visualizarAceptShow"   value="Aceptar"/>
-                <input type="button" class="btn btn-danger  btn-sm" ng-click="modificarCancel()" ng-show="modificarCancelShow" value="Cancelar"/>
-                <input type="button" class="btn btn-success btn-sm" ng-click="modificarAcept()"  ng-show="modificarAceptShow"  value="Aceptar"/>
-            </div>
+            
+            <!-- Boton 'Nuevo' -->
+            <button type="button" class="btn btn-primary btn-sm" ng-click="nuevo()">
+                <img src="img/grid/nuevo.png">
+                Nuevo
+            </button>
+
+            <!-- Tabla de Datos -->
+            <table class="table table-bordered table-striped">
+
+                <tr>
+                    <td>NOMBRE</td>
+                    <td>LOGIN</td>
+                    <td>ESTADO</td>
+                    <td>ACCIONES</td>
+                </tr>
+
+                <tr ng-repeat="usuario in usuarios">
+                    <td>{{usuario.nombre}}</td>
+                    <td>{{usuario.login}}</td>
+                    <td>{{usuario.estado}}</td>
+                    <td>
+                        <button class="btn btn-info btn-xs"    ng-click="visualizar(usuario.id)"><img src="img/grid/visualizar.png"/></button>
+                        <button class="btn btn-info btn-xs"    ng-click="modificar(usuario.id)" ><img src="img/grid/modificar.png" /></button>
+                        <button class="btn btn-info btn-xs"    ng-click="estado(usuario.id,usuario.estado)"    ><img src="img/grid/estado.png"    /></button>
+                        <button class="btn btn-danger btn-xs"  ng-click="eliminar(usuario.id)"  ><img src="img/grid/eliminar.png"  /></button>
+                    </td>
+                </tr>
+            </table>
+
         </div>
     </div>
 </div>

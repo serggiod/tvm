@@ -1,5 +1,7 @@
 angular.module('application').controller('passwordCtrl',function($scope,$http,$location,SessionFac){
 
+	// Ocultar el formulario.
+	$scope.formViiew = false;
     // Funcion inicializar.
     $scope.init = function(){
    		SessionFac.sessionStatus(function(){
@@ -7,7 +9,7 @@ angular.module('application').controller('passwordCtrl',function($scope,$http,$l
             $scope.subtitulo= '¿Esta seguro?';
             $scope.appname  = 'LAVALLE-TVM';
             $scope.username = SessionFac.getNombre();
-            $scope.status   = true;
+            $scope.formView = true;
         });
     };
 
