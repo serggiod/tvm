@@ -78,6 +78,14 @@
 			}
 			return $_POST[$key];
 		}
+
+		protected function notFound404(){
+			header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found",true,404);
+            header("Status: 404 Not Found",true,404);
+            header('NetworkError: 404 Not Found',true,404);
+            header('X-PHP-Response-Code: 404', true, 404);
+            exit();
+		}
     }
         
         /*

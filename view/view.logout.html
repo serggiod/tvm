@@ -5,9 +5,8 @@
             <h4>{{titulo}} <small>{{subtitulo}}</small></h4>
         </div>
         <div class="panel-body form form-inline">
-            <div ng-bind-html="alert"></div>
-            <input type="button"   class="btn btn-danger btn-md"  ng-click="cancel()" value="Cancelar"/>
-            <input type="button"   class="btn btn-success btn-md" ng-click="submit()" value="Aceptar"/>
+            <button type="button" class="btn btn-danger  btn-md" ng-click="cancelar()">Cancelar</button>
+            <button type="button" class="btn btn-success btn-md" ng-click="aceptar()" >Aceptar</button>
         </div>
     </div>
 </div>

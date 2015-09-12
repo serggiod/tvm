@@ -1,4 +1,4 @@
-angular.module('application').controller('TvMsgCtrl',function($scope,$http,$window,SessionFac,TvMsgSvc,AlertsFac){
+angular.module('application').controller('TvMsgCtrl',function($scope,$http,$window,SessionFac,TvMsgSvc){
     
     $scope.init=function(){
         SessionFac.sessionStatus(function(){

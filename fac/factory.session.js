@@ -47,7 +47,8 @@ angular.module('application').factory('SessionFac',function($http,$location,Sess
         },
         sessionDestroy:function(){
             $this=this;
-            $http.post('mdl/login.php',{m:'logout'})
+            $this.setM('logout');
+            $http.post('mdl/login.php',$this.sessionInstance())
             .success(function(rta){
                 if(rta==='true'){
                     $this.setId(null);
@@ -62,27 +63,19 @@ angular.module('application').factory('SessionFac',function($http,$location,Sess
         },
         sessionStatus:function(promise){
             $this=this;
-            if($this.getEstado()){
-                promise();
-            } else {
-                $http.post('mdl/login.php',{m:'status'})
-                .success(function(rta){
-                    if(rta==='true'){
-                        $http.post('mdl/login.php',{m:'userdata'})
-                        .success(function(json){
-                            $this.setId(json.id);
-                            $this.setNombre(json.nombre);
-                            $this.setEstado(true);
-                            $this.setUser(null);
-                            $this.setPass(null);
-                            $this.setM(null);
-                            promise();
-                        });
-                    } else {
-                        $this.sessionDestroy();
-                    }
-                });
-            }
+            $this.setM('userdata');
+            $http.post('mdl/login.php',$this.sessionInstance())
+            .success(function(json,status){
+                if(status===200){
+                    $this.setId(json.usr_id);
+                    $this.setNombre(json.usr_nombre);
+                    $this.setEstado(json.usr_status);
+                    $this.setM(null);
+                    promise();
+                } else {
+                    $this.sessionDestroy();
+                }
+            });
         },
         sessionInstance:function(){
             return SessionSvc;

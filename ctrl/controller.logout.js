@@ -1,12 +1,29 @@
-angular.module('application').controller('logoutCtrl',function($scope,LogoutFac){
+angular.module('application').controller('logoutCtrl',function($scope,$location,SessionFac){
     
-    /* INICIALIZAR */
-    LogoutFac.init($scope);
+    // Funcion para inicializar.
+    $scope.init = function(){
+		SessionFac.sessionStatus(function(){
+            $scope.titulo   = 'Salir del Sistema';
+            $scope.subtitulo= '¿Esta seguro?';
+            $scope.appname  = 'LAVALLE-TVM';
+            $scope.username = SessionFac.getNombre();
+            $scope.status   = true;
+        });
+    };
+
+    // Funcion aceptar.
+    $scope.aceptar=function(){
+        if(confirm('¿Esta seguro que desea salir del sistema?')){
+            SessionFac.sessionDestroy();
+        }
+    };
     
-    /* SUBMIT */
-    $scope.submit=function(){LogoutFac.submit($scope);};
-    
-    /* CANCEL */
-    $scope.cancel=function(){LogoutFac.cancel($scope);};
+    // Funcion cancelar.
+    $scope.cancelar=function(){
+        $location.path('/tv');
+    };
+
+    // Ejecutar inicializar.
+    $scope.init();
 
 });
