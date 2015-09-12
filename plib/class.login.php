@@ -64,14 +64,19 @@
             echo $return;
         }
         private function password(){
-            $return = 'false';
-            $id=$this->sanitizeInt($this->json->id);
-            $pass=$this->sanitizeString($this->json->pass);
-            $sql=str_replace(array(':id',':pass'),array($id,$pass),$this->sql_password);
-            $query = $this->pdo->prepare($sql);
-            if($query->execute()) $return='true';
-            header('content-type: text/plain');
-            echo $return;
+            if($this->checkStatus()){
+                $return = 'false';
+                $id=$this->sanitizeInt($this->json->id);
+                $pass=$this->sanitizeString($this->json->pass);
+                $sql=str_replace(array(':id',':pass'),array($id,$pass),$this->sql_password);
+                $query = $this->pdo->prepare($sql);
+                if($query->execute()) $return='true';
+                header('content-type: text/plain');
+                echo $return;
+            } else {
+                $this->notFound404();
+            }
+
         }
         
     }

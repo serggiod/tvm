@@ -25,7 +25,7 @@ angular.module('application')
     	message:form,
     	buttons:[{
     		id:'btnSubmit',
-    		cssClass:'btn btn-success',
+    		cssClass:'btn btn-primary',
     		label:'Ingresar',
     		action:function(formLogin){
 
@@ -69,9 +69,9 @@ angular.module('application')
 			                // Si el susuario existe inicio la session.
 			                if(json.usr_id)
 			                {
+			                	formLogin.close();
 			                	SessionFac.sessionStart(json);
 			                	$location.path('/tv');
-			                	formLogin.close();
 			                }
 
 			                // Si el usuario no existe envio un mensaje de error.
@@ -105,7 +105,10 @@ angular.module('application')
 		                    });
 			            }
 
-		            });			
+		            })
+					.error(function(){
+						$location.path('/login');
+					});			
 
     			} 
     		}
