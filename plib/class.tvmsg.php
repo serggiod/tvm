@@ -2,7 +2,7 @@
     class tvmsg extends main {
         private $json          = null;    
         private $sql_registers = "select tv_id id, concat('Monitor-Tv ',tv_id) tv,tv_back_color backcolor, tv_play_direction playdirection, tv_play_time playtime from tv_msg order by tv_id;";
-        private $sql_insert    = "insert into tv_msg (tv_back_color,tv_play_direction,tv_play_time) values (':back_color',':play_direction',':play_time'); update tv_msg_txt set tv_id=last_insert_id() where tv_id=':tv_id'; update tv_msg_audio set tv_id=last_insert_id() where tv_id=':tv_id';"; 
+        private $sql_insert    = "insert into tv_msg (tv_back_color,tv_play_direction,tv_play_time) values (':back_color',':play_direction',':play_time'); update tv_msg_txt set tv_id=last_insert_id() where tv_id=':tv_id';"; 
         private $sql_select    = "select tv_back_color back_color, tv_play_direction play_direction, tv_play_time play_time from tv_msg where tv_id=:id;";
         private $sql_update    = "update tv_msg set tv_back_color=':back_color',tv_play_direction=':play_direction',tv_play_time=':play_time' where tv_id=:id;";
         private $sql_delete    = "delete from tv_msg where tv_id=:id;";
@@ -43,35 +43,38 @@
             }            
         }
         private function insert(){
-            if($_SESSION['app_status']){
+            if($this->checkStatus()){
                 $return='false';
-                $tv_id = $this->sanitizeString($this->json->tv_id);
                 $back_color=$this->sanitizeString($this->json->back_color);
                 $play_direction=$this->sanitizeString($this->json->play_direction);
                 $play_time=$this->sanitizeString($this->json->play_time);
                 $sql=str_replace(
-                    array(':back_color',':play_direction',':play_time',':tv_id'),
-                    array( $back_color,  $play_direction,  $play_time,  $tv_id),
+                    array(':back_color',':play_direction',':play_time'),
+                    array( $back_color,  $play_direction,  $play_time),
                     $this->sql_insert
                 );
                 $query = $this->pdo->prepare($sql);
                 if($query->execute()) $return='true';
                 header('content-type: text/plain');
                 echo $return;
+            } else {
+                $this->notFound404();
             }
         }
         private function select(){
-            if($_SESSION['app_status']){
+            if($this->checkStatus()){
                 $id=$this->sanitizeInt($this->json->id);
                 $sql=str_replace(':id',$id,$this->sql_select);
                 $query=$this->pdo->query($sql);
                 $json=$query->fetch(PDO::FETCH_OBJ);
                 header('content-type: application/json');
                 echo json_encode($json);
+            } else {
+                $this->notFound404();
             }
         }
         private function update(){
-            if($_SESSION['app_status']){
+            if($this->checkStatus()){
                 $id=$this->sanitizeInt($this->json->id);
                 $back_color=$this->sanitizeString($this->json->back_color);
                 $play_direction=$this->sanitizeString($this->json->play_direction);
@@ -86,10 +89,12 @@
                 if($query->execute()) $return='true';
                 header('content-type: text/plain');
                 echo $return;
+            } else {
+                $this->notFound404();
             }
         }
         private function delete(){
-            if($_SESSION['app_status']){
+            if($this->checkStatus()){
                 $id=$this->sanitizeInt($this->json->id);
                 $sql=str_replace(':id',$id,$this->sql_delete);
                 $query=$this->pdo->prepare($sql);
@@ -97,6 +102,8 @@
                 if($query->execute()) $return='true';
                 header('content-type: text/plain');
                 echo $return;
+            } else {
+                $this->notFound404();
             }
         }
 

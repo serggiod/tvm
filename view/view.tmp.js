@@ -4,23 +4,23 @@
     <!-- Formulario: Tabla de mensajes -->
     <div class="panel panel-info" ng-show="formGrid">
         <div class="panel-heading">
-            <h4>Administrar Monitores<small> Lista de monitores</small></h4>
+            <h4>Administrar Tv-Mensajes <small>Lista de mensajes</small></h4>
         </div>
         <div class="panel-body">
             
             <!-- Boton nuevo. -->
-            <button type="button" class="btn btn-primary btn-sm" ng-click="nuevo()">
+            <button type="button" class="btn btn-primary btn-sm" ng-click="Nuevo()">
                 <img src="img/grid/nuevo.png" border="0"/>
                 Nuevo
             </button>
 
             <!-- Tabla de Mensajes -->
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped" ng-show="formShow">
                 <tr>
-                    <td>MONITOR</td>
+                    <td>TV</td>
                     <td>FONDO</td>
                     <td>DIRECCION</td>
-                    <td>TIEMPO</td>
+                    <td>TIEMMPO</td>
                     <td>ACCIONES</td>
                 </tr>
                 <tr ng-repeat="mensaje in mensajes">
@@ -32,25 +32,22 @@
                         <img src="img/grid/visualizar.png" class="btn btn-info btn-xs" ng-click="visualizar(mensaje.id);">    
                         <img src="img/grid/modificar.png" class="btn btn-info btn-xs" ng-click="modificar(mensaje.id);">    
                         <img src="img/grid/eliminar.png" class="btn btn-danger btn-xs" ng-click="eliminar(mensaje.id);">
-                        |
-                        <img src="img/grid/lanzar.png" class="btn btn-success btn-xs" ng-click="mensajes(mensaje.id);">
-                        <img src="img/grid/lanzar.png" class="btn btn-success btn-xs" ng-click="audios(mensaje.id);">
-                        <img src="img/grid/lanzar.png" class="btn btn-success btn-xs" ng-click="lanzar(mensaje.id);">
+                        <img src="img/grid/lanzar.png" class="btn btn-success btn-xs" ng-click="lanzar(mensaje.id);">    
                     </td>
                 </tr>
             </table>
         </div>
     </div>            
-
-    <!-- Formulario: Nuevo.
+    
+    <!-- Formulario: Nuevo. -->
     <div class="panel panel-info" ng-show="formNuevo">
         <div class="panel-heading">
             <h4>Administrar Tv-Mensajes <small>Nuevo Mensaje </small></h4>
         </div>
         <div class="panel-body">
-            
+            <!-- FORMS -->
             <div ng-hide="formShow">
-                
+                <!-- Formulario de mensajes -->
                 <h4>Lista de Mensajes</h4>
                 <div class="form form-inline">
                     <label class="form-control height70">Mensaje:<br/>
@@ -110,7 +107,7 @@
 
                 <hr class="height5"/>
                 
-                
+                <!-- Formulario de audios -->
                 <h4>Lista de Audios</h4>
                 <div class="form form-inline">
                     <label class="form-control height70">Audios disponibles:<br/>
@@ -145,7 +142,7 @@
                 <hr class="height5"/>
 
                 <h4>Datos Finales</h4>
-                
+                <!-- Formulario: Tv Mensajes. -->
                 <div class="form form-inline">
                     <label class="form-control height70">Color de Fondo:<br/>
                     <ng-color-picker selected="backcolor" ng-disabled="disabled"></ng-color-picker></label>
@@ -172,9 +169,7 @@
                     <input type="button" class="btn btn-danger " ng-click="modificarCancel()"  ng-show="modificarCancelShow" value="Cancelar"/>
                     <input type="button" class="btn btn-success" ng-click="modificarAcept()"   ng-show="modificarAceptShow"  value="Aceptar"/>
                 </div>
-                
             </div>
         </div>
     </div>
-    -->
 </div>

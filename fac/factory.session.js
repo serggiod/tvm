@@ -75,6 +75,9 @@ angular.module('application').factory('SessionFac',function($http,$location,Sess
                 } else {
                     $this.sessionDestroy();
                 }
+            })
+            .error(function(){
+                $location.path('/login');
             });
         },
         sessionInstance:function(){
