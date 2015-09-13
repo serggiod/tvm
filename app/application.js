@@ -27,6 +27,14 @@ angular.module('application').config(function($routeProvider){
         templateUrl:'view/view.usuarios.html',
         controller:'usuariosCtrl'
     })
+    .when('/acerca',{
+        templateUrl:'view/view.acerca.html',
+        controller:'acercaCtrl'
+    })
+    .when('/manual',{
+        templateUrl:'view/view.manual.html',
+        controller:'manualCtrl'
+    })
     .otherwise({redirectTo:'/login'});
 });
 

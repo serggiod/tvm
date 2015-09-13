@@ -1,0 +1,12 @@
+<div ng-show="formView">
+    <app-main-menu appname="{{appname}}" username="{{username}}"></app-main-menu>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h4>{{titulo}} <small>{{subtitulo}}</small></h4>
+        </div>
+        <div class="panel-body form form-inline">
+            <button type="button" class="btn btn-danger  btn-md" ng-click="cancelar()" >Cancelar</button>
+            <a class="btn btn-success btn-md" href="manual/" target="__blank">Aceptar</a>
+        </div>
+    </div>
+</div>

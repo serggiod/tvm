@@ -1,0 +1,15 @@
+<div ng-show="formView">
+    <app-main-menu appname="{{appname}}" username="{{username}}"></app-main-menu>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h4>{{titulo}} <small>{{subtitulo}}</small></h4>
+        </div>
+        <div class="panel-body form form-inline">
+            <p>
+                Este software fue desarrollado en los laboratorios de pipirulo.
+                Desarrollador: Orlando Sergio Dominguez <a href="mailto: serggio@msn.com">serggio@msn.com</a>  
+            </p>
+            <button type="button" class="btn btn-success btn-md" ng-click="aceptar()" >Aceptar</button>
+        </div>
+    </div>
+</div>
