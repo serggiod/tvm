@@ -400,18 +400,24 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
     };
 
     // Función mensajes.
-    $scope.mensajes = function(){
-        alert('Me tienen que rutear a otro controlador');
+    $scope.mensajesF = function(id){
+        if(confirm('¿Esta seguro que desea modificar los mensajes de este monitor?')){
+            $location.path('/mensajes');
+        }
     };
 
     // Función audios.
     $scope.audios = function(id){
-        alert('Me tienen que rutear as otro controlador');
+        if(confirm('¿Esta seguro que desea modificar la lista de audio de este monitor?')){
+            $location.path('/audios');
+        }
     };
 
     // Función lanzar.
     $scope.lanzar = function(id){
-        alert('Me tienen que rutear a otro controlador');
+        if(confirm('¿Esta seguro que desea lanzar este monitor?')){
+            $location.path('lanzar');
+        }
     };
     /*
     $scope.resetForms=function(){
