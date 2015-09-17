@@ -23,6 +23,18 @@ angular.module('application').config(function($routeProvider){
         templateUrl:'view/view.tv_msg.html',
         controller:'TvMsgCtrl'
     })
+    .when('/mensajes/:tvId',{
+        templateUrl:'view/view.mensajes.html',
+        controller:'mensajesCtrl'
+    })
+    .when('/audios/:tvId',{
+        templateUrl:'view/view.audios.html',
+        controller:'audiosCtrl'
+    })
+    .when('/lanzar/:tvId',{
+        templateUrl:'view/view.lanzar.html',
+        controller:'lanzarCtrl'
+    })
     .when('/usuarios',{
         templateUrl:'view/view.usuarios.html',
         controller:'usuariosCtrl'
