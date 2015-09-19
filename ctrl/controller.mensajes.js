@@ -53,7 +53,6 @@ angular
 
         $http.post('mdl/mensajes.php',json)
         .success(function(json){
-            console.log(json);
             $scope.model = json;
         })
         .error(function(){
@@ -66,7 +65,106 @@ angular
         $location.path('/tv');
     };
 
-    // funcion nuevo.
+    // Función eliminar.
+    $scope.eliminar = function(txtId){
+        if(confirm('¿Esta seguro que desea eliminar éste mensaje?')){
+
+            json = {txtId:txtId,m:'delete'};
+            $http.post('mdl/mensajes.php',json)
+            .success(function(rta){
+
+                if(rta==='false'){
+                    alert = BootstrapDialog.show({
+                        type:BootstrapDialog.TYPE_DANGER,
+                        closable:false,
+                        title:'ERROR',
+                        message:'No se ha podido eliminar este mensaje.',
+                        buttons:[{
+                            label:'Aceptar',
+                            cssClass:'btn btn-danger',
+                            action:function(){ alert.close(); }
+                        }]
+                    });
+                }
+
+                if(rta==='true'){
+                    alert = BootstrapDialog.show({
+                        type:BootstrapDialog.TYPE_SUCCESS,
+                        closable:false,
+                        title:'CORRECTO',
+                        message:'El mensaje se ha eliminado en forma correcta.',
+                        buttons:[{
+                            label:'Aceptar',
+                            cssClass:'btn btn-success',
+                            action:function(){ $scope.resetModel(); alert.close(); }
+                        }]
+                    });
+                }
+
+            })
+            .error(function(){
+                $location.path('/login');
+            });
+        }
+    };
+
+    // Función visualizar.
+    $scope.visualizar = function(txtId){
+
+        json = {txtId:txtId,m:'select'};
+
+        $http.post('mdl/mensajes.php',json)
+        .success(function(json){
+
+            var form  = $('<div class="form"></div>');
+            var alert = $('<div class="alert alert-warning"><strong>Atención:</strong> Este formulario es de solo lectura.</div>');
+            var msg   = $('<input type="text" class="form-control" maxlength="250" value="'+json.txt_msg+'" disabled="true"/>');
+            var color = $('<div class="input-group"><input type="text" class="form-control"/><span class="input-group-addon"><i></i></span></div>'); 
+            var img   = $('<select class="form-control" disabled="true"><option value="'+json.txt_back_image+'">'+json.txt_back_image+'</option></select>');
+            var font  = $('<select class="form-control" disabled="true"><option value="'+json.txt_font_family+'">'+json.txt_font_family+'</option</select>');
+            var size  = $('<select class="form-control" disabled="true"><option value="'+json.txt_font_size+'">'+json.txt_font_size+'</option></select>');
+
+            form
+                .append(alert)
+                .append(msg)
+                .append(color)
+                .append(img)
+                .append(font)
+                .append(size);
+
+            var modal = BootstrapDialog.show({
+                type:BootstrapDialog.TYPE_PRIMARY,
+                closable:false,
+                title:'VISUALIZANDO',
+                message:form,
+                onshown:function(){
+                    color.colorpicker();
+                    color.colorpicker('setValue','#6fa41f');
+                    color.colorpicker('disable');
+                },
+                buttons:[{
+                    label:'Aceptar',
+                    cssClass:'btn btn-primary',
+                    action:function(){
+                        $scope.resetModel();
+                        modal.close();
+                        delete form;
+                        delete alert;
+                        delete msg;
+                        delete color;
+                        delete img;
+                        delete font;
+                        delete size;
+                    }
+                }]
+            });
+        })
+        .error(function(){
+            $location.path('/login;')
+        });
+    };
+
+    // Función nuevo.
     $scope.nuevo = function(){
   
         var form  = $('<div class="form"></div>');
@@ -110,6 +208,7 @@ angular
             message:form,
             onshown:function(){
                 color.colorpicker();
+                color.colorpicker('setValue','#6fa41f');
             },
             buttons:[{
                 label:'Cancelar',
@@ -135,23 +234,25 @@ angular
                     json = {
                         tvId:$scope.tvId,
                         msg:msg.val(),
-                        frontColor:color.val(),
-                        backColor:color.colorpicker('getValue'),
+                        frontColor:color.colorpicker('getValue'),
                         backImage:img.val(),
                         fontFamily:font.val(),
                         fontSize:size.val(),
                         m:'insert'
                     };
-                    console.log(json);
 
                     $http.post('mdl/mensajes.php',json)
-                    .succeess(function(rta){
+                    .success(function(rta){
 
                         if(rta==='false'){
-
+                            alert.attr('class','alert alert-danger');
+                            alert.html('<strong>Atención:</strong> No se pudo insertar el mensaje.');
                         }
 
                         if(rta==='true'){
+                            alert.attr('class','alert alert-success');
+                            alert.html('<strong>Atención:</strong> EL mensaje se insertó en forma correcta.')
+                            $scope.resetModel();
                             modal.close();
                             delete form;
                             delete alert;
@@ -165,14 +266,141 @@ angular
                             delete optZ;
                             delete modal;
                         }
-                        
+
                     })
                     .error(function(){
+                        modal.close();
                         $location.path('/login');
                     });
 
                 }
             }]
         });
-    };    
+    };
+
+    // Función modificar.
+    $scope.modificar = function(txtId){
+        if(confirm('¿Esta seguro que desea modificar este mensaje?')){
+
+            json = {txtId:txtId,m:'select'};
+
+            $http.post('mdl/mensajes.php',json)
+            .success(function(json){
+
+                var form  = $('<div class="form"></div>');
+                var alert = $('<div class="alert alert-warning"><strong>Atención:</strong> Este formulario le permite modificar el mensaje.</div>');
+                var msg   = $('<input type="text" class="form-control" maxlength="250" value="'+json.txt_msg+'"/>');
+                var color = $('<div class="input-group"><input type="text" class="form-control"/><span class="input-group-addon"><i></i></span></div>'); 
+                var img   = $('<select class="form-control"></select>');
+                var font  = $('<select class="form-control"></select>');
+                var size  = $('<select class="form-control"></select>');
+
+                var optF  = '<option value="'+json.txt_font_family+'" selected="true">'+json.txt_font_family+'</option>';
+                for(i in $scope.fnt) {
+                    optF += '<option value="'+$scope.fnt[i]+'">'+$scope.fnt[i]+'</option>';
+                }
+
+                var optI = '<option value="'+json.txt_back_image+'" selected="true">'+json.txt_back_image+'</option>';
+                for(i in $scope.bck) {
+                    optI += '<option value="'+$scope.bck[i]+'">'+$scope.bck[i]+'</option>';
+                }
+
+                var optZ = '<option value="'+json.txt_font_size+'" selected="true">'+json.txt_font_size+'</option>';
+                for(i in $scope.sizes) {
+                    optZ += '<option value="'+$scope.sizes[i]+'">'+$scope.sizes[i]+'</option>';
+                }
+
+                font.append(optF);
+                img.append(optI);
+                size.append(optZ);
+
+                form
+                    .append(alert)
+                    .append(msg)
+                    .append(color)
+                    .append(img)
+                    .append(font)
+                    .append(size);
+
+                var modal = BootstrapDialog.show({
+                    type:BootstrapDialog.TYPE_PRIMARY,
+                    closable:false,
+                    title:'VISUALIZANDO',
+                    message:form,
+                    onshown:function(){
+                        color.colorpicker();
+                        color.colorpicker('setValue',json.txt_front_color);
+                    },
+                    buttons:[{
+                        label:'Cancelar',
+                        cssClass:'btn btn-danger',
+                        action:function(){
+                            modal.close();
+                            delete form;
+                            delete alert;
+                            delete msg;
+                            delete color;
+                            delete img;
+                            delete font;
+                            delete size;
+                            delete optF;
+                            delete optI;
+                            delete optZ;
+                        }
+
+                    },{
+                        label:'Aceptar',
+                        cssClass:'btn btn-success',
+                        action:function(){
+
+                            json = {
+                                txtId:txtId,
+                                txtMsg:msg.val(),
+                                txtFrontColor:color.colorpicker('getValue'),
+                                txtBackImage:img.val(),
+                                txtFontFamily:font.val(),
+                                txtFontSize:size.val(),
+                                m:'update'
+                            };
+
+                            $http.post('mdl/mensajes.php',json)
+                                .success(function(rta){
+
+                                    if(rta==='false'){
+                                        alert.attr('class','alert alert-danger');
+                                        alert.html('<strong>Atención:</strong> No se pudo modificar el mensaje.');
+                                    }
+
+                                    if(rta=='true'){
+                                        alert.attr('class','alert alert-success');
+                                        alert.html('<strong>Atención:</strong> El mensaje se ha modificado en forma correcta.');
+                                        $scope.resetModel();
+                                        modal.close();
+                                        delete form;
+                                        delete alert;
+                                        delete msg;
+                                        delete color;
+                                        delete img;
+                                        delete font;
+                                        delete size;
+                                        delete optF;
+                                        delete optI;
+                                        delete optZ;                                       
+                                    }
+
+                                })
+                                .error(function(){
+                                    modal.close();
+                                    $location.path('/login');
+                                });
+
+                        }
+                    }]
+                });
+            })
+            .error(function(){
+                $location.path('/login;')
+            });
+        }
+    };
 });

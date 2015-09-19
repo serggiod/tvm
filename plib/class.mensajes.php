@@ -1,10 +1,6 @@
 <?php
     class mensajes extends main {
 
-        private $sql_delete     = "delete from tv_msg_txt where txt_id=:txt_id limit 1;";
-        private $sql_estado     = "update tv_msg_txt set estado=':estado' where txt_id=:txt_id;";
-        private $sql_reorden    = "update tv_msg_txt set orden=:orden where orden=:reorden and tv_id=':tv_id'; update tv_msg_txt set orden=:reorden where txt_id=:txt_id;";
-
         public function __construct(){
             $this->init();
         }
@@ -74,8 +70,6 @@
         // una cadena en texto plano,
         private $sql_insert = "insert into tv_msg_txt (tv_id,txt_msg,txt_front_color,txt_back_image,txt_font_family,txt_font_size) values (':tv_id',':txt_msg',':txt_front_color',':txt_back_image',':txt_font_family',':txt_font_size');";
         private function insert(){
-            $this->notFound404();
-            die();
             if($this->checkStatus()){
 
                 $return          = 'false';
@@ -101,10 +95,31 @@
                 $this->notFound404();
             }
         }
+
+        // Elimina un mensaje yu
+        // devuelve una cadena de texto.
+        private $sql_delete = "delete from tv_msg_txt where txt_id=:txt_id limit 1;";
+        private function delete(){
+            if($this->checkStatus()){
+                $txt_id=$this->sanitizeInt($this->json->txtId);
+                $sql=str_replace(':txt_id',$txt_id,$this->sql_delete);
+                $query=$this->pdo->prepare($sql);
+                $return='false';
+                if($query->execute()) $return='true';
+                header('content-type: text/plain');
+                echo $return;
+            } else {
+                $this->notFound404();
+            }
+        }
+
+        // Selecciona un mensaje y
+        // lo devuelve como un objeto json.
+        private $sql_select = "select * from tv_msg_txt where txt_id=:txt_id;";
         private function select(){
             if($this->checkStatus()){
-                $id=$this->sanitizeInt($this->json->id);
-                $sql=str_replace(':id',$id,$this->sql_select);
+                $txt_id=$this->sanitizeInt($this->json->txtId);
+                $sql=str_replace(':txt_id',$txt_id,$this->sql_select);
                 $query=$this->pdo->query($sql);
                 $json=$query->fetch(PDO::FETCH_OBJ);
                 header('content-type: application/json');
@@ -113,15 +128,21 @@
                 $this->notFound404();
             }
         }
+
+        // Actualiza un mensaje y
+        // devuelve un texto plano.
+        private $sql_update = "update tv_msg_txt set txt_msg=':txt_msg',txt_front_color=':txt_front_color',txt_back_image=':txt_back_image',txt_font_family=':txt_font_family',txt_font_size=':txt_font_size' where txt_id=:txt_id limit 1;";
         private function update(){
             if($this->checkStatus()){
-                $id=$this->sanitizeInt($this->json->id);
-                $back_color=$this->sanitizeString($this->json->back_color);
-                $play_direction=$this->sanitizeString($this->json->play_direction);
-                $play_time=$this->sanitizeString($this->json->play_time);
+                $txt_id=$this->sanitizeInt($this->json->txtId);
+                $txt_msg= $this->sanitizeString($this->json->txtMsg);
+                $txt_front_color=$this->sanitizeString($this->json->txtFrontColor);
+                $txt_back_image=$this->sanitizeString($this->json->txtBackImage);
+                $txt_font_family=$this->sanitizeString($this->json->txtFontFamily);
+                $txt_font_size=$this->sanitizeString($this->json->txtFontSize);
                 $sql=str_replace(
-                    array(':id',':back_color',':play_direction',':play_time'),
-                    array( $id, $back_color,  $play_direction,  $play_time),
+                    array(':txt_id', ':txt_msg', ':txt_front_color', ':txt_back_image', ':txt_font_family', ':txt_font_size'),
+                    array($txt_id,   $txt_msg,   $txt_front_color,   $txt_back_image,    $txt_font_family,  $txt_font_size),
                     $this->sql_update
                 );
                 $query=$this->pdo->prepare($sql);
@@ -133,19 +154,7 @@
                 $this->notFound404();
             }
         }
-        private function delete(){
-            if($this->checkStatus()){
-                $id=$this->sanitizeInt($this->json->id);
-                $sql=str_replace(':id',$id,$this->sql_delete);
-                $query=$this->pdo->prepare($sql);
-                $return='false';
-                if($query->execute()) $return='true';
-                header('content-type: text/plain');
-                echo $return;
-            } else {
-                $this->notFound404();
-            }
-        }
+
 
         
     }
