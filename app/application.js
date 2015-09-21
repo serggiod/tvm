@@ -3,6 +3,8 @@ angular.module('application',['ngRoute','ngSanitize','colorpicker.module']);
 /* RUTAS */
 angular.module('application').config(function($routeProvider){
     $routeProvider
+
+    // Pantalla de logueo.
     .when('/',{
         templateUrl:'view/view.login.html',
         controller:'loginCtrl'
@@ -11,6 +13,8 @@ angular.module('application').config(function($routeProvider){
         templateUrl:'view/view.login.html',
         controller:'loginCtrl'
     })
+
+    // Menu archivos.
     .when('/logout',{
         templateUrl:'view/view.logout.html',
         controller:'logoutCtrl'
@@ -19,6 +23,8 @@ angular.module('application').config(function($routeProvider){
         templateUrl:'view/view.password.html',
         controller:'passwordCtrl'
     })
+
+    // Menú Herramientas.
     .when('/tv',{
         templateUrl:'view/view.tv_msg.html',
         controller:'TvMsgCtrl'
@@ -39,6 +45,20 @@ angular.module('application').config(function($routeProvider){
         templateUrl:'view/view.usuarios.html',
         controller:'usuariosCtrl'
     })
+    .when('/imagenes',{
+        templateUrl:'view/view.imagenes.html',
+        controller:'imagenesCtrl'
+    })
+    .when('/fuentes',{
+        templateUrl:'view/view.fuentes.html',
+        controller:'fuentesCtrl'
+    })
+    .when('/mp3',{
+        templateUrl:'view/view.mp3.html',
+        controller:'mp3Ctrl'
+    })
+
+    // Menú ayuda.
     .when('/acerca',{
         templateUrl:'view/view.acerca.html',
         controller:'acercaCtrl'

@@ -1,0 +1,33 @@
+<div ng-show="formView">
+    <app-main-menu appname="{{appname}}" username="{{username}}"></app-main-menu>
+    
+    <!-- Formulario: Tabla de mp3s -->
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h4>Administrar MP3<small> Lista de mp3 en el servidor</small></h4>
+        </div>
+        <div class="panel-body">
+            
+            <!-- Boton 'Nuevo'. -->
+            <button type="button" class="btn btn-primary btn-sm" ng-click="nuevo()">
+                <img src="img/grid/nuevo.png" border="0"/>
+                Nuevo
+            </button>
+
+            <!-- Tabla de Mensajes -->
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>NOMBRE DEL ARCHIVO</td>
+                    <td>ACCIONES</td>
+                </tr>
+                <tr ng-repeat="mp3 in aud">
+                    <td>{{mp3}}</td>
+                    <td>
+                        <img src="img/grid/eliminar.png" class="btn btn-danger btn-xs" ng-click="eliminar(mp3);">
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>            
+</div>

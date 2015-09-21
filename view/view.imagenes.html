@@ -1,0 +1,35 @@
+<div ng-show="formView">
+    <app-main-menu appname="{{appname}}" username="{{username}}"></app-main-menu>
+    
+    <!-- Formulario: Tabla de mensajes -->
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h4>Administrar Imagenes<small> Lista de imagenes en el servidor</small></h4>
+        </div>
+        <div class="panel-body">
+            
+            <!-- Boton 'Nuevo'. -->
+            <button type="button" class="btn btn-primary btn-sm" ng-click="nuevo()">
+                <img src="img/grid/nuevo.png" border="0"/>
+                Nuevo
+            </button>
+
+            <!-- Tabla de Mensajes -->
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>NOMBRE DEL ARCHIVO</td>
+                    <td>MINIATURA</td>
+                    <td>ACCIONES</td>
+                </tr>
+                <tr ng-repeat="imagen in bck">
+                    <td>{{imagen}}</td>
+                    <td></td>
+                    <td>
+                        <img src="img/grid/eliminar.png" class="btn btn-danger btn-xs" ng-click="eliminar(imagen);">
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>            
+</div>

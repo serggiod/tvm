@@ -11,7 +11,10 @@ angular.module('application').service('MainMenuSvc',function(){
             name:'Herramientas',
             items:[
                 {text:'Administrar Tv',href:'#/tv'},
-                {text:'Administrar Usuarios',href:'#/usuarios'}
+                {text:'Administrar Usuarios',href:'#/usuarios'},
+                {text:'Cargar Imágenes',href:'#/imagenes'},
+                {text:'Cargar Fuentes',href:'#/fuentes'},
+                {text:'Cargar Mp3',href:'#/mp3'}
             ]
         },
         {
