@@ -2,7 +2,7 @@ angular
 .module('application')
 .controller('mensajesCtrl',function($scope,$http,$location,$routeParams,SessionFac){
     
-    $scope.formView = true;
+    $scope.formView = false;
     $scope.tvId     = $routeParams.tvId;
     $scope.fnt      = {};
     $scope.bck      = {};
