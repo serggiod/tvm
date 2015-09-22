@@ -155,6 +155,34 @@
             }
         }
 
+        // Elimina una fuente y
+        // devuelve un texto plano.
+        private function deleteFont(){
+            if($this->checkStatus()){
+                chdir('..');
+                $return = 'false';
+                $fileName = $this->sanitizeString($this->json->fileName);
+                if(unlink('fnt/'.$fileName)) $return = 'true';
+                header('content-type: text/plain');
+                echo $return;
+            } else {
+                $this->notFound404();
+            }
+        }
 
+        // Elimina una imagen y
+        // devuelve un texto plano.
+        private function deleteImage(){
+            if($this->checkStatus()){
+                chdir('..');
+                $return = 'false';
+                $fileName = $this->sanitizeString($this->json->fileName);
+                if(unlink('bck/'.$fileName)) $return = 'true';
+                header('content-type: text/plain');
+                echo $return;
+            } else {
+                $this->notFound404();
+            }
+        }
         
     }

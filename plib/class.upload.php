@@ -6,7 +6,7 @@
 		} 
 		
 		public function uploadAudioFile(){
-			if($_SESSION['app_status']){
+			if($this->checkStatus()){
 				$return = 'false';
 				$count  = 0;
 				for($i=0;$i<count($_FILES['audioFiles']['name']);$i++){
@@ -17,37 +17,43 @@
 				if($count) $return = 'true';
 				header('content-type: text/plain');
 				echo $return;
-			}
+			} else {
+                $this->notFound404();
+            }
 		}
 
 		public function uploadImageFile(){
-			if($_SESSION['app_status']){
+            if($this->checkStatus()){
 				$return = 'false';
 				$count  = 0;
 				for($i=0;$i<count($_FILES['imageFiles']['name']);$i++){
 					$tmp  = $_FILES['imageFiles']['tmp_name'][$i];
-					$name = $this->path.'/bak/'.$_FILES['imageFiles']['name'][$i];
+					$name = $this->path.'/bck/'.$_FILES['imageFiles']['name'][$i];
 					if(move_uploaded_file($tmp,$name)) $count++;
 				}
 				if($count) $return = 'true';
 				header('content-type: text/plain');
 				echo $return;
-			}
+			} else {
+                $this->notFound404();
+            }
 		}
 
 		public function uploadFontFile(){
-			if($_SESSION['app_status']){
+			if($this->checkStatus()){
 				$return = 'false';
 				$count  = 0;
 				for($i=0;$i<count($_FILES['fontFiles']['name']);$i++){
 					$tmp  = $_FILES['fontFiles']['tmp_name'][$i];
-					$name = $this->path.'/font/'.$_FILES['fontFiles']['name'][$i];
+					$name = $this->path.'/fnt/'.$_FILES['fontFiles']['name'][$i];
 					if(move_uploaded_file($tmp,$name)) $count++;
 				}
 				if($count) $return = 'true';
 				header('content-type: text/plain');
 				echo $return;
-			}
+			} else {
+                $this->notFound404();
+            }
 		}
 
 	}

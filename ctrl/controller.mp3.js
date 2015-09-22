@@ -24,19 +24,12 @@ angular
 
         };
 
-        /*
-        // Función volver.
-        $scope.volver = function(){
-            $location.path('/tv');
-        };
-
-        // Función Eliminar.
-        $scope.eliminar = function(id){
+        $scope.eliminar = function(fileName){
             if(confirm('¿Esta seguro que desea eliminar este archivo de audio?')){
 
                 json = {
-                    audId:id,
-                    m:'delete'
+                    fileName:fileName,
+                    m:'deleteAudio'
                 };
 
                 $http.post('mdl/audios.php',json)
@@ -81,17 +74,11 @@ angular
         $scope.nuevo = function(){
 
             var form  = $('<div class="form"></div>');
-            var alert = $('<div class="alert alert-warning"><strong>Atención:</strong> Seleccione un archivo de audio para agregar a la lista.</div>');
-            var mp3   = $('<select class="form-control"></select>');
-            var opt   = '';
+            var alert = $('<div class="alert alert-warning"><strong>Atención:</strong> Seleccione los archivos para subir al servidor.</div>');
+            var file  = $('<input type="file" laguage="es" multiple="true" class="form-control"/>');
 
-            for(i in $scope.aud){
-                opt += '<option value="'+$scope.aud[i]+'">'+$scope.aud[i]+'</option>';
-            }
-
-            mp3.append(opt);
             form.append(alert);
-            form.append(mp3);
+            form.append(file);
 
             var modal = BootstrapDialog.show({
                 type:BootstrapDialog.TYPE_PRIMARY,
@@ -105,8 +92,7 @@ angular
                         modal.close();
                         delete form;
                         delete alert;
-                        delete mp3;
-                        delete opt;
+                        delete file;
                         delete modal;
                     }
                 },{
@@ -114,40 +100,45 @@ angular
                     cssClass:'btn btn-success',
                     action:function(){
 
-                        json = {
-                            tvId:$scope.tvId,
-                            audFile:mp3.val(),
-                            m:'insert'
-                        };
-
-                        $http.post('mdl/audios.php',json)
-                        .success(function(rta){
-
-                            if(rta==='false'){
-                                alert.attr('class','alert alert-danger');
-                                alert.html('<strong>Atención:</strong> No se pudo agregar el archivo a la lista de audio.');
+                        formD = new FormData;
+                        Files = file[0].files;
+                        
+                        for(i=0;i<Files.length;i++){
+                            if(Files[i].type==='audio/mpeg' || Files[i].type==='audio/mpeg3' || Files[i].type==='audio/x-mpeg-3' || Files[i].type==='video/mpeg' || Files[i].type==='video/x-mpeg' || Files[i].type==='audio/mpeg' || Files[i].type==='audio/mp3'){
+                                formD.append('audioFiles[]',Files[i]);
                             }
+                        }
 
-                            if(rta==='true'){
-                                alert.attr('class','alert alert-success');
-                                alert.html('<strong>Atención:</strong> El archivo de audio se ha agregado a la lsita.');
-                                $scope.resetModel();
-                                modal.close();
-                                delete form;
-                                delete alert;
-                                delete mp3;
-                                delete opt;
-                                delete modal;
+                         $.ajax({
+                            url:'upl/font.file.php',
+                            data:formD,
+                            processData:false,
+                            contentType:false,
+                            type:'POST',
+                            success:function(rta){
+
+                                if(rta==='false'){
+                                    alert.attr('class','alert alert-danger');
+                                    alert.html('<strong>Atención:</strong> No se pudo guardar los archivos en el servidor.');
+                                }
+
+                                if(rta==='true'){
+                                    alert.attr('class','alert alert-success');
+                                    alert.html('<strong>Atención:</strong> Los archivos se han guardado en el servidor.');
+                                    $scope.resetModel();
+                                    modal.close();
+                                    delete form;
+                                    delete alert;
+                                    delete file;
+                                    delete formD,
+                                    delete modal;
+                                }
                             }
-                        })
-                        .error(function(){
-                            $location.path('/login');
                         });
 
                     }
                 }]
             }); 
         };
-        */
 
     });

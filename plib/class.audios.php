@@ -92,6 +92,19 @@
             }   
         }
 
-
-        
+        // Devuelve un objeto de texto
+        // plano que informa sobre el
+        // estado de la operacion.
+        private function deleteAudio(){
+            if($this->checkStatus()){
+                chdir('..');
+                $return   = 'false';
+                $fileName = $this->sanitizeString($this->json->fileName);
+                if(unlink('aud/'.$fileName)) $return='true';
+                header('content-type: text/plain');
+                echo $return;
+            } else {
+                $this->notFound404();
+            }   
+        }     
     }
