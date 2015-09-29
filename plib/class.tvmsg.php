@@ -3,7 +3,7 @@
         private $json          = null;    
         private $sql_registers = "select tv_id id, concat('Monitor-Tv ',tv_id) tv,tv_back_color backcolor, tv_play_direction playdirection, tv_play_time playtime from tv_msg order by tv_id;";
         private $sql_insert    = "insert into tv_msg (tv_back_color,tv_play_direction,tv_play_time) values (':back_color',':play_direction',':play_time'); update tv_msg_txt set tv_id=last_insert_id() where tv_id=':tv_id';"; 
-        private $sql_select    = "select tv_back_color back_color, tv_play_direction play_direction, tv_play_time play_time from tv_msg where tv_id=:id;";
+        
         private $sql_update    = "update tv_msg set tv_back_color=':back_color',tv_play_direction=':play_direction',tv_play_time=':play_time' where tv_id=:id;";
         private $sql_delete    = "delete from tv_msg where tv_id=:id;";
 
@@ -61,6 +61,8 @@
                 $this->notFound404();
             }
         }
+
+        private $sql_select = "select * from tv_msg where tv_id=:id;";
         private function select(){
             if($this->checkStatus()){
                 $id=$this->sanitizeInt($this->json->id);

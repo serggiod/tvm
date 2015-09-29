@@ -3,22 +3,16 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
     // Ocultar el formulario.
     $scope.formView  = false;
 
-    // Función  inicializar.
-    $scope.init=function(){
-        SessionFac.sessionStatus(function(){
-        
-            // Detalles de la interfase.
-            $scope.appname  = 'LAVALLE-TVM';
-            $scope.username = SessionFac.getNombre();
-            $scope.mensajes = {};
-            $scope.formView = true;
-            $scope.resetModel();
+    // Inicializamos el formulario.
+    SessionFac.sessionStatus(function(){
+    
+        $scope.appname  = 'LAVALLE-TVM';
+        $scope.username = SessionFac.getNombre();
+        $scope.mensajes = {};
+        $scope.formView = true;
+        $scope.resetModel();
 
-        });
-    };
-
-    // Ejecutar función inicializadora.
-    $scope.init();
+    });
 
     // Carga los mensajes paraser presentados en una tabla.
     $scope.resetModel=function(){
@@ -144,9 +138,9 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
 
             var form  = $('<div class="form"></div>');
             var alert = $('<div class="alert alert-warning"><strong>Atención:</strong> Este formulario es de solo lectura.</div>');
-            var color = $('<input class="form-control" style="background-color:'+json.back_color+'" value="'+json.back_color+'" readonly="true"/>');
-            var direction = $('<input class="form-control" value="'+json.play_direction+'"/>');
-            var time  = $('<input class="form-control" value="'+json.play_time+'"/>');
+            var color = $('<input class="form-control" style="background-color:'+json.back_color+'" value="'+json.tv_back_color+'" readonly="true"/>');
+            var direction = $('<input class="form-control" value="'+json.tv_play_direction+'"/>');
+            var time  = $('<input class="form-control" value="'+json.tv_play_time+'"/>');
             
             form.append(alert);
             form.append(color);
@@ -192,11 +186,11 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
             $http.post('mdl/tvmsg.php',json)
             .success(function(json){
 
-                hh = json.play_time.split(':');
+                hh = json.tv_play_time.split(':');
                 var form      = $('<div class="form"></div>');
                 var alert     = $('<div class="alert alert-warning"><strong>Atención:</strong> Con este formulario puede modificar un monitor.</div>');
                 var color     = $('<div class="input-group"><input type="text" value="" class="form-control"/><span class="input-group-addon"><i></i></span></div>'); 
-                var direction = $('<select class="form-control"><option value="'+json.play_direction+'">'+json.play_direction+'</option><option value="ARRIBA">ARRIBA</option><option value="DERECHA">DERECHA</option><option value="IZQUIERDA">IZQUIERDA</option><option value="ABAJO">ABAJO</option></select>');
+                var direction = $('<select class="form-control"><option value="'+json.tv_play_direction+'">'+json.tv_play_direction+'</option><option value="ARRIBA">ARRIBA</option><option value="DERECHA">DERECHA</option><option value="IZQUIERDA">IZQUIERDA</option><option value="ABAJO">ABAJO</option></select>');
                 var hora      = $('<input type="number" min="0" max="23" value="'+hh[0]+'" class="form-control"/>');
                 var minuto    = $('<input type="number" min="0" max="59" value="'+hh[1]+'" class="form-control"/>');
                 var segundo   = $('<input type="number" min="0" max="59" value="'+hh[2]+'" class="form-control"/>');
@@ -222,7 +216,7 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
                     message:form,
                     onshown:function(){
                         color.colorpicker();
-                        color.colorpicker('setValue',json.back_color);
+                        color.colorpicker('setValue',json.tv_back_color);
                     },
                     buttons:[{
                         label:'Cancelar',
@@ -370,9 +364,7 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
 
     // Función lanzar.
     $scope.lanzar = function(id){
-        if(confirm('¿Esta seguro que desea lanzar este monitor?')){
-            $location.path('/lanzar/'+id);
-        }
+        $location.path('/lanzar/'+id);
     };
     
 });
