@@ -106,5 +106,24 @@
             } else {
                 $this->notFound404();
             }   
-        }     
+        }
+
+        // Devuelve el conenido de un
+        // archivo de audio
+        private function getFile(){
+            if($this->checkStatus()){
+                chdir('..');
+                $fileName     = $this->sanitizeString($this->json->fileName);
+                $fileContents = file_get_contents('aud/'.$fileName);
+                $fileEncode   = base64_encode($fileContents);
+                $fileArray    = array(
+                    'fileName'   => $fileName,
+                    'fileEncode' => $fileEncode
+                );
+                header('content-type: text/plain');
+                echo json_encode($fileArray);
+            } else {
+                $this->notFound404();
+            }   
+        }
     }

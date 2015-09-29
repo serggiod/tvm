@@ -5,6 +5,8 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
     $scope.width   = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     $scope.height  = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
     $scope.slide   = {};
+    $scope.audio   = {};
+    $scope.image   = {};
 
     // Inicializar el formulario.
     SessionFac.sessionStatus(function(){
@@ -62,6 +64,7 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
                 .success(function(json){
                     $scope.slide.audios = json;
                     $scope.consola.append("\nSolicitar lista de audios..."); 
+                    $scope.descargarAudios();
                 })
                 .error(function(){
                     $location.path('/login');
@@ -78,10 +81,26 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
         });
 
     };
-    /*
-    2 Tarea - Incluir librería JS para trabajar con Canvas
-    y elementos multimedias.
 
+
+    $scope.descargarAudios = function(){
+        $scope.consola.append('\nIniciando la descarga de archivos de audio.');
+        for(i in $scope.slide.audios){
+            var fileName = $scope.slide.audios[i].aud_file;
+            $http.post('mdl/audios.php',{fileName:fileName,m:'getFile'})
+            .success(function(file){
+                $scope.consola.append('\nCargando en memoria el arhvivo mp3 '+file.fileName+'...');
+                mp3 = '<source src="data:audio/mp3;base64,'+file.fileEncode+'" type="audio/mp3">';
+                $('#audios').append(mp3);
+
+            })
+            .error(function(){
+                $location.path('/login');
+            });
+        }
+    };
+
+    /*
     3 Tarea - Imprementar descarga de información sobre
     la estructura de la presentación , e informar por 
     consola..
