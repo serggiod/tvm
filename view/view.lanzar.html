@@ -1,6 +1,4 @@
-<div class="stageBase" ng-show="formView">
+<div id="stageBase" class="stageBase" ng-show="formView">
     <textarea id="consola" readonly="true"></textarea>
+    <audio id="audioPlay" onended="window.nextAudio(this)"></audio>
 </div>
-<audio id="audios" autoplay="true" loop="true">
-    
-</audio>

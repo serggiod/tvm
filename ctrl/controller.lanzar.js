@@ -4,9 +4,11 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
     $scope.formView= true;
     $scope.width   = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     $scope.height  = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-    $scope.slide   = {};
-    $scope.audio   = {};
-    $scope.image   = {};
+    window.slide   = {};
+    window.audLen  = 0;
+    window.onPlay  = 0;
+    window.imgLen  = 0;
+
 
     // Inicializar el formulario.
     SessionFac.sessionStatus(function(){
@@ -60,15 +62,7 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
                 $scope.consola.append("\nSolicitar lista de mensajes...")
 
                 // Solicitar lista de audio.
-                $http.post('mdl/audios.php',{tvId:$scope.tvId,m:'registers'})
-                .success(function(json){
-                    $scope.slide.audios = json;
-                    $scope.consola.append("\nSolicitar lista de audios..."); 
-                    $scope.descargarAudios();
-                })
-                .error(function(){
-                    $location.path('/login');
-                });
+                $scope.descargarAudios();
 
             })
             .error(function(){
@@ -82,24 +76,67 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
 
     };
 
-
     $scope.descargarAudios = function(){
-        $scope.consola.append('\nIniciando la descarga de archivos de audio.');
-        for(i in $scope.slide.audios){
-            var fileName = $scope.slide.audios[i].aud_file;
-            $http.post('mdl/audios.php',{fileName:fileName,m:'getFile'})
-            .success(function(file){
-                $scope.consola.append('\nCargando en memoria el arhvivo mp3 '+file.fileName+'...');
-                mp3 = '<source src="data:audio/mp3;base64,'+file.fileEncode+'" type="audio/mp3">';
-                $('#audios').append(mp3);
+        $scope.consola.append("\nSolicitar lista de audios...");
+        $http.post('mdl/audios.php',{tvId:$scope.tvId,m:'registers'})
+        .success(function(json){
 
+            window.audLen = json.length;
+            window.slide.audios = [];
+
+            for(i in json){
+
+                var fileName = json[i].aud_file;
+                $scope.consola.append('\nIniciando la descarga del archivo de audio '+fileName+'...');
+
+                $http.post('mdl/audios.php',{fileName:fileName,filePos:i,m:'getFile'})
+                .success(function(json){
+                    $scope.consola.append('\nCargando en la lista de reproducción el archivo de audio '+json.fileName+'...');
+                    window.slide.audios[json.filePos] = json;
+
+                    // En cada ciclo lanzamos la lista de reproducción.
+                    $scope.listaDeReproduccion();
+                })
+                .error(function(){
+                    $location.path('/login');
+                });
+            }
+            
+        })
+        .error(function(){
+            $location.path('/login');
+        });
+
+    };
+
+    $scope.listaDeReproduccion = function(){
+
+        if(window.slide.audios.length===window.audLen){
+            
+            audio = document.getElementById('audioPlay');
+            window.onPlay=0;
+            window.nextAudio(audio);
+            $scope.consola.append('\nLanzando lista de reproducción de audios...');
+            $scope.descargarImagenes();
+
+        }
+
+    };
+
+    $scope.descargarImagenes = function(){
+        $scope.consola.append('\nIniciando descarga de imágenes.');
+        for(i in $scope.slide.messages){
+            fileName = $scope.slide.messages[i].txt_back_image;
+            $http.post('mdl/mensajes.php',{fileName:fileName,m:'getFile'})
+            .success(function(json){
+                $scope.consola.append('\nCargando en memoria el arhvivo de imagen '+json.fileName+'...');
+                console.log(json);
             })
             .error(function(){
                 $location.path('/login');
             });
         }
     };
-
     /*
     3 Tarea - Imprementar descarga de información sobre
     la estructura de la presentación , e informar por 

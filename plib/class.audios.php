@@ -113,14 +113,18 @@
         private function getFile(){
             if($this->checkStatus()){
                 chdir('..');
+                $filePos      = $this->sanitizeInt($this->json->filePos);
                 $fileName     = $this->sanitizeString($this->json->fileName);
                 $fileContents = file_get_contents('aud/'.$fileName);
+                $fileMime     = mime_content_type('aud/'.$fileName);
                 $fileEncode   = base64_encode($fileContents);
                 $fileArray    = array(
                     'fileName'   => $fileName,
-                    'fileEncode' => $fileEncode
+                    'fileMime'   => $fileMime,
+                    'fileEncode' => $fileEncode,
+                    'filePos'    => $filePos
                 );
-                header('content-type: text/plain');
+                header('content-type: application/json');
                 echo json_encode($fileArray);
             } else {
                 $this->notFound404();

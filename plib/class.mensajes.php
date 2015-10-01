@@ -184,5 +184,24 @@
                 $this->notFound404();
             }
         }
+
+        // Devuelve el conenido de un
+        // archivo de imagen
+        private function getFile(){
+            if($this->checkStatus()){
+                chdir('..');
+                $fileName     = $this->sanitizeString($this->json->fileName);
+                $fileContents = file_get_contents('bck/'.$fileName);
+                $fileEncode   = base64_encode($fileContents);
+                $fileArray    = array(
+                    'fileName'   => $fileName,
+                    'fileEncode' => $fileEncode
+                );
+                header('content-type: application/json');
+                echo json_encode($fileArray);
+            } else {
+                $this->notFound404();
+            }   
+        }
         
     }
