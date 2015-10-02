@@ -85,21 +85,6 @@
                 <script src="ctrl/controller.password.js"></script>
                 <script src="ctrl/controller.acerca.js"></script>
                 <script src="ctrl/controller.manual.js"></script>
-                <script type="text/javascript">
-                window.nextAudio = function(audio){
-
-                    console.log(window.onPlay);
-                    if(window.onPlay>=window.audLen) window.onPlay = 0;
-
-                    audio.src  = 'data:'+window.slide.audios[window.onPlay].fileMime+';base64,'+window.slide.audios[window.onPlay].fileEncode;
-                    audio.type = window.slide.audios[window.onPlay];
-                    audio.play();
-
-                    console.log('Reproduciendo audio '+window.slide.audios[window.onPlay].fileName);
-                    window.onPlay++;
-
-                };
-                </script>
 
 	</body>
 </html>

@@ -2,10 +2,7 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
     
     // Ocultar el formulario.
     $scope.formView  = false;
-    window.slide   = {};
-    window.audLen  = 0;
-    window.onPlay  = 0;
-    window.imgLen  = 0;
+    delete window.slide;
 
     // Inicializamos el formulario.
     SessionFac.sessionStatus(function(){
