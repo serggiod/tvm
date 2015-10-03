@@ -55,14 +55,40 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
     window.slide.image.tag = document.getElementById('slide');
     window.slide.image.play = function(){
         if(window.slide.image.filesLen()===window.slide.image.filesNum){
+            
+            html = '<div u="slides" style="cursor:move;position:absolute;overflow:hidden;left:0px;top:0px;width:'+window.slide.width+'px; height:'+window.slide.height+'px;">';
             for(i in window.slide.image.files){
-                window.slide.image.tag.innerHTML += '<img src="data:'+window.slide.image.files[i].fileType+';base64,'+window.slide.image.files[i].fileEncode+'" width="'+window.slide.width+'" height="'+window.slide.height+'" border="0"/>';
+                html += '<div><img u="image" src="data:'+window.slide.image.files[i].fileType+';base64,'+window.slide.image.files[i].fileEncode+'" width="'+window.slide.width+'" height="'+window.slide.height+'" border="0"/></div>';
             }
+            html += '</div>';
+            window.slide.image.tag.innerHTML = html;
 
             window.slide.console.style.height = '20px';
             window.slide.console.style.top =(window.slide.height -30).toString()+'px';
             window.slide.console.innerHTML='';
             window.slide.console.log('<br/>Reproduciendo >>>>> '+window.slide.audio.files[window.slide.audio.onPlay].fileName);
+
+            // Opciones de animación.
+            var options = {
+                $AutoPlay:true,
+                $Idle:1000,
+                $PlayOrientation:1,
+                $PauseOnHover:0
+            };
+
+            // Orientación de la animación.
+            if(window.slide.base.tv_play_direction==='ARRIBA') options.$PlayOrientation=2;
+            if(window.slide.base.tv_play_direction==='ABAJO') options.$PlayOrientation=6;
+            if(window.slide.base.tv_play_direction==='DERECHA') options.$PlayOrientation=1;
+            if(window.slide.base.tv_play_direction==='IZQUIERDA') options.$PlayOrientation=5;
+
+            // Intervalo de la animación.
+            tmp = window.slide.base.tv_play_time.split(':');
+            tme = (((tmp[0]*60)*60)*1000)+((tmp[1]*60)*1000)+(tmp[2]*1000);
+            options.$Idle = tme;
+
+            // Lanzar animación.
+            var jssor_slider = new $JssorSlider$('slide',options);
         }
     };
 
@@ -125,6 +151,7 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
             .success(function(json){
                 window.slide.base = json;
                 window.slide.console.log('<br/>Datos básicos agregados.',function(){
+                    window.slide.image.tag.style.backgroundColor=json.tv_back_color;
                     // Solicitar lista de audio.
                     $scope.descargarAudios();
                 });
