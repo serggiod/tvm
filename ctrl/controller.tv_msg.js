@@ -2,6 +2,8 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
     
     // Ocultar el formulario.
     $scope.formView  = false;
+    body = document.getElementById('body');
+    body.style.overflow='scroll';
     delete window.slide;
 
     // Inicializamos el formulario.
