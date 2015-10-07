@@ -203,11 +203,22 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
             window.slide.console.log("<br/>Solicitar lista de imágenes.",function(){
                 $http.post('mdl/mensajes.php',{tvId:$scope.tvId,m:'registers'})
                 .success(function(json){
-
+                    console.log(window.slide.width,window.slide.height);
                     window.slide.image.filesNum = json.length;
                     for(i in json){
                         fileName = json[i].txt_back_image;
-                        $http.post('mdl/mensajes.php',{fileName:fileName,filePos:i,m:'getFile'})
+                        file = {
+                            txtFontFamily:json[i].txt_font_family,
+                            txtFontSize:json[i].txt_font_size,
+                            txtFrontColor:json[i].txt_front_color,
+                            txtMsg:json[i].txt_msg,
+                            fileWidth:window.slide.width,
+                            fileHeight:window.slide.height,
+                            fileName:fileName,
+                            filePos:i,
+                            m:'getFile'
+                        };
+                        $http.post('mdl/mensajes.php',file)
                         .success(function(json){
                             window.slide.image.files[json.filePos] = json;
                             window.slide.console.log('<br/>Cargando en la lista el arhvivo '+json.fileName+'.',function(){

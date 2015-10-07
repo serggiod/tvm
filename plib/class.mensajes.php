@@ -1,4 +1,8 @@
 <?php
+
+    use GDText\Box;
+    use GDText\Color;
+
     class mensajes extends main {
 
         public function __construct(){
@@ -190,11 +194,35 @@
         private function getFile(){
             if($this->checkStatus()){
                 chdir('..');
+                $txtFontFamily= $this->sanitizeString($this->json->txtFontFamily);
+                $txtFontSize  = $this->sanitizeString($this->json->txtFontSize);
+                $txtFrontColor= $this->hex2rgb($this->sanitizeString($this->json->txtFrontColor));
+                $txtMsg       = $this->sanitizeString($this->json->txtMsg);
+                $fileWidth    = $this->sanitizeString($this->json->fileWidth);
+                $fileHeight   = $this->sanitizeString($this->json->fileHeight);
                 $filePos      = $this->sanitizeInt($this->json->filePos);
                 $fileName     = $this->sanitizeString($this->json->fileName);
+                $fileMime     = 'image/jpeg';
                 $fileContents = file_get_contents('bck/'.$fileName);
-                $fileMime     = mime_content_type('bck/'.$fileName);
-                $fileEncode   = base64_encode($fileContents);
+                error_log($txtMsg);
+                // Crear una imagen a partir de archivo.
+                $fileImage    = imagecreatefromstring ($fileContents);
+
+                // Dibujar un cuadro de texto en la imagen.
+                $box = new Box($fileImage);
+                $box->setFontFace('fnt/'.$txtFontFamily);
+                $box->setFontColor(new Color($txtFrontColor[0],$txtFrontColor[1],$txtFrontColor[2]));
+                $box->setFontSize($txtFontSize);
+                $box->setBox(0, 0, imagesx($fileImage),imagesy($fileImage));
+                $box->setTextAlign('center', 'center');
+                $box->draw($txtMsg);
+
+                // Crear, escribir, leer, codificar y limpiar la imagen en un buffer.
+                ob_start();
+                imagejpeg($fileImage,null,100);
+                $fileEncode   = base64_encode(ob_get_contents());
+                ob_end_clean();
+
                 $fileArray    = array(
                     'fileName'   => $fileName,
                     'fileMime'   => $fileMime,
