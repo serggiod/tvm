@@ -32,7 +32,7 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
                 if(window.slide.audio.onPlay>=window.slide.audio.filesNum) window.slide.audio.onPlay = 0;
                 window.slide.console.log('<br/>Reproduciendo >>>>> '+window.slide.audio.files[window.slide.audio.onPlay].fileName,function(){
                     window.slide.audio.tag.src  = 'data:'+window.slide.audio.files[window.slide.audio.onPlay].fileMime+';base64,'+window.slide.audio.files[window.slide.audio.onPlay].fileEncode;
-                    window.slide.audio.tag.type = window.slide.audio.files[window.slide.audio.onPlay].fileType;
+                    window.slide.audio.tag.type = window.slide.audio.files[window.slide.audio.onPlay].fileMime;
                     window.slide.audio.tag.play();
                     window.slide.audio.onPlay++;
                 });

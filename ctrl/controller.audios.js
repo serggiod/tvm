@@ -158,4 +158,28 @@ angular
             }); 
         };
 
+        // Función play.
+        $scope.play = function(fileName){
+
+            $scope.stop();
+
+            $http.post('mdl/audios.php',{fileName:fileName,filePos:0,m:'getFile'})
+            .success(function(json){
+                audio = document.getElementById('audio');
+                audio.src  = 'data:'+json.fileMime+';base64,'+json.fileEncode;
+                audio.type = json.fileMime;
+                audio.play();
+            })
+            .error(function(){
+                $location.path('/login');
+            });
+
+        };
+
+        // Funcion Stop.
+        $scope.stop = function(){
+            audio = document.getElementById('audio');
+            audio.pause();
+        }
+
     });

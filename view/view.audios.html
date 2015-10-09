@@ -29,14 +29,16 @@
                 <tr ng-repeat="audio in model">
                     <td>{{audio.aud_file}}</td>
                     <td>
-                        <!--
-                        <img src="img/grid/visualizar.png" class="btn btn-info btn-xs" ng-click="visualizar(audio.id);">    
-                        <img src="img/grid/modificar.png" class="btn btn-info btn-xs" ng-click="modificar(audio.id);">    
-                        -->
-                        <img src="img/grid/eliminar.png" class="btn btn-danger btn-xs" ng-click="eliminar(audio.aud_id);">
+                        <img src="img/grid/stop.png" class="btn btn-info btn-xs"   ng-click="stop();">
+                        <img src="img/grid/play.png" class="btn btn-success btn-xs"   ng-click="play(audio.aud_file);">
+                        <img src="img/grid/eliminar.png"  class="btn btn-danger btn-xs" ng-click="eliminar(audio.aud_id);">
                     </td>
                 </tr>
             </table>
+
+            <!-- Audio -->
+            <audio id="audio"></audio>
+            <!-- /Audio -->
         </div>
     </div>            
 
