@@ -212,8 +212,6 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
                             txtFontSize:json[i].txt_font_size,
                             txtFrontColor:json[i].txt_front_color,
                             txtMsg:json[i].txt_msg,
-                            fileWidth:window.slide.width,
-                            fileHeight:window.slide.height,
                             fileName:fileName,
                             filePos:i,
                             m:'getFile'

@@ -403,4 +403,43 @@ angular
             });
         }
     };
+
+    // Funcion Play.
+    $scope.play = function(txt_font_family,txt_font_size,txt_front_color,txt_msg,txt_back_image){
+        file = {
+            txtFontFamily:txt_font_family,
+            txtFontSize:txt_font_size,
+            txtFrontColor:txt_front_color,
+            txtMsg:txt_msg,
+            fileName:txt_back_image,
+            filePos:0,
+            m:'getFile'
+        };
+        $http.post('mdl/mensajes.php',file)
+        .success(function(json){
+            
+            var image = '<img'
+            image += ' src="data:'+json.fileType+';base64,'+json.fileEncode+'"';
+            image += ' width="100%"';
+            image += ' border="0"';
+            image += '/>';
+
+            var alert = BootstrapDialog.show({
+                type:BootstrapDialog.TYPE_PRIMARY,
+                closable:false,
+                title:'VISTA PREVIA',
+                message:image,
+                buttons:[{
+                    label:'Aceptar',
+                    cssClass:'btn btn-primary',
+                    action:function(){
+                        alert.close();
+                    }
+                }]
+            });
+        })
+        .error(function(){
+            $location.path('/login');
+        });
+    }
 });
