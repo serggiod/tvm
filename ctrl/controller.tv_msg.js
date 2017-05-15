@@ -140,7 +140,7 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
 
             var form  = $('<div class="form"></div>');
             var alert = $('<div class="alert alert-warning"><strong>Atención:</strong> Este formulario es de solo lectura.</div>');
-            var color = $('<input class="form-control" style="background-color:'+json.back_color+'" value="'+json.tv_back_color+'" readonly="true"/>');
+            var color = $('<input class="form-control" style="background-color:'+json.tv_back_color+' !important;" value="'+json.tv_back_color+'" readonly="true"/>');
             var direction = $('<input class="form-control" value="'+json.tv_play_direction+'"/>');
             var time  = $('<input class="form-control" value="'+json.tv_play_time+'"/>');
             

@@ -73,14 +73,14 @@ angular
         // Función Nuevo.
         $scope.nuevo = function(){
 
-            var form  = $('<div class="form"></div>');
-            var alert = $('<div class="alert alert-warning"><strong>Atención:</strong> Seleccione los archivos para subir al servidor.</div>');
-            var file  = $('<input type="file" laguage="es" multiple="true" class="form-control"/>');
+            form  = $('<div class="form"></div>');
+            alert = $('<div class="alert alert-warning"><strong>Atención:</strong> Seleccione los archivos para subir al servidor.</div>');
+            file  = $('<input type="file" laguage="es" multiple="true" class="form-control"/>');
 
             form.append(alert);
             form.append(file);
 
-            var modal = BootstrapDialog.show({
+            modal = BootstrapDialog.show({
                 type:BootstrapDialog.TYPE_PRIMARY,
                 closable:false,
                 title:'NUEVO',
@@ -103,14 +103,14 @@ angular
                         formD = new FormData;
                         Files = file[0].files;
                         
-                        for(i=0;i<Files.length;i++){
+                        for(var i=0;i<Files.length;i++){
                             if(Files[i].type==='audio/mpeg' || Files[i].type==='audio/mpeg3' || Files[i].type==='audio/x-mpeg-3' || Files[i].type==='video/mpeg' || Files[i].type==='video/x-mpeg' || Files[i].type==='audio/mpeg' || Files[i].type==='audio/mp3'){
                                 formD.append('audioFiles[]',Files[i]);
                             }
                         }
 
                          $.ajax({
-                            url:'upl/font.file.php',
+                            url:'upl/audio.file.php',
                             data:formD,
                             processData:false,
                             contentType:false,

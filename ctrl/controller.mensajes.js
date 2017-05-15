@@ -398,48 +398,62 @@ angular
                     }]
                 });
             })
-            .error(function(){
+            .error(function(){ 
                 $location.path('/login;')
             });
         }
     };
 
     // Funcion Play.
-    $scope.play = function(txt_font_family,txt_font_size,txt_front_color,txt_msg,txt_back_image){
-        file = {
-            txtFontFamily:txt_font_family,
-            txtFontSize:txt_font_size,
-            txtFrontColor:txt_front_color,
-            txtMsg:txt_msg,
-            fileName:txt_back_image,
-            filePos:0,
-            m:'getFile'
-        };
-        $http.post('mdl/mensajes.php',file)
-        .success(function(json){
-            
-            var image = '<img'
-            image += ' src="data:'+json.fileType+';base64,'+json.fileEncode+'"';
-            image += ' width="100%"';
-            image += ' border="0"';
-            image += '/>';
+    $scope.play = function(k){
+        
+        var style = document.createElement('style');
+        document.head.appendChild(style);
+        style.type = 'text/css';
+        style.innerHTML  = "@font-face{";
+        style.innerHTML += "    font-family: '"+$scope.model[k].txt_font_family+"'; ";
+        style.innerHTML += "    src: url('fnt/"+$scope.model[k].txt_font_family+"'); ";
+        style.innerHTML += "} ";
+        
+        var div = document.createElement('div');
+        document.body.appendChild(div);
+        div.style.position = 'absolute';
+        div.style.top = '0';
+        div.style.left = '0';
+        div.style.margin = '0';
+        div.style.padding = '0';
+        div.style.border = '0';
+        div.style.width = window.innerWidth + 'px';
+        div.style.height = window.innerHeight + 'px';
+        div.style.backgroundColor = $scope.model[k].txt_front_color;
+        div.style.backgroundImage = 'url(\'bck/' + $scope.model[k].txt_back_image + '\')';
+        div.style.backgroundSize  = '100% 100%';
+        div.style.textAlign = 'center';
+        div.style.overflow = 'hidden';
 
-            var alert = BootstrapDialog.show({
-                type:BootstrapDialog.TYPE_PRIMARY,
-                closable:false,
-                title:'VISTA PREVIA',
-                message:image,
-                buttons:[{
-                    label:'Aceptar',
-                    cssClass:'btn btn-primary',
-                    action:function(){
-                        alert.close();
-                    }
-                }]
-            });
-        })
-        .error(function(){
-            $location.path('/login');
-        });
+        var txt = document.createElement('font');
+        div.appendChild(txt);
+        txt,style.display = 'block';
+        txt.style.position = 'absolute';
+        txt.style.top = '0';
+        txt.style.left = '0';
+        txt.style.width = '100%';
+        txt.style.color = $scope.model[k].txt_front_color;
+        txt.style.fontFamily = "'" + $scope.model[k].txt_font_family + "'";
+        txt.style.fontSize = $scope.model[k].txt_font_size + 'px';
+        txt.innerHTML = $scope.model[k].txt_msg;
+
+        var top = parseInt((window.innerHeight - txt.clientHeight) /2).toString();
+        txt.style.top = top + 'px';
+
+        div.onclick = function(){ 
+            document.head.removeChild(style);
+            document.body.removeChild(div);
+            delete style;
+            delete div;
+            delete txt;
+            delete top;
+         };
+
     }
 });

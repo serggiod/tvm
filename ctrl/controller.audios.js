@@ -2,14 +2,16 @@ angular
     .module('application')
     .controller('audiosCtrl',function($scope,$http,$location,$routeParams,SessionFac){
 
+        console.log('Hola Mundo');
+        
         // Inicializar el formulario.
         SessionFac.sessionStatus(function(){
             $scope.tvId     = $routeParams.tvId;
             $scope.appname  = 'LAVALLE-TVM';
             $scope.username = SessionFac.getNombre();
             $scope.formView = true;
-            $scope.aud      = {};
-            $scope.model    = {};
+            $scope.aud      = [];
+            $scope.model    = [];
             $scope.resetModel();
         });
 

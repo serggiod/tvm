@@ -5,9 +5,9 @@
 	// Globales.
 	$basePath = str_replace('/conf','',dirname(__FILE__));
 	$baseUrl  = 'http://localhost:8080';
-    $baseDB   =  'mysql:host=localhost;dbname=lavalles_tvm;';
-    $baseUS   = 'lavalles_tvm';
-    $basePW   = '11337799';
+    $baseDB   =  'mysql:host=localhost;dbname=tvm;';
+    $baseUS   = 'test';
+    $basePW   = 'test';
     
     // Requerimientos.
 	$FILES = scandir($basePath.'/plib');

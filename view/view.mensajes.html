@@ -29,7 +29,7 @@
                     <td>TAMAÑO</td>
                     <td>ACCIONES</td>
                 </tr>
-                <tr ng-repeat="mensaje in model">
+                <tr ng-repeat="(k,mensaje) in model">
                     <td>{{mensaje.txt_msg}}</td>
                     <td style="background-color:{{mensaje.txt_front_color}};"></td>
                     <td>{{mensaje.txt_back_image}}</td>
@@ -38,7 +38,7 @@
                     <td>
                         <img src="img/grid/visualizar.png" class="btn btn-info btn-xs" ng-click="visualizar(mensaje.txt_id);">    
                         <img src="img/grid/modificar.png" class="btn btn-info btn-xs" ng-click="modificar(mensaje.txt_id);">
-                        <img src="img/grid/play.png" class="btn btn-success btn-xs" ng-click="play(mensaje.txt_font_family,mensaje.txt_font_size,mensaje.txt_front_color,mensaje.txt_msg,mensaje.txt_back_image);">
+                        <img src="img/grid/play.png" class="btn btn-success btn-xs" ng-click="play(k);">
                         <img src="img/grid/eliminar.png" class="btn btn-danger btn-xs" ng-click="eliminar(mensaje.txt_id);">
                     </td>
                 </tr>
