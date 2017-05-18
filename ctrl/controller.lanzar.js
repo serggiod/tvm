@@ -1,20 +1,67 @@
 angular.module('application').controller('lanzarCtrl',function($scope,$http,$location,$routeParams,SessionFac){
     
     // Variables por defecto.
-    $scope.formView= true;
-
-    body = document.getElementById('body');
-    body.style.overflow='hidden';
+    $scope.formView = true;
+    $scope.tvId     = $routeParams.tvId;
     
     // Definir un objeto diapositiva.
-    window.slide                = new Object;
-    window.slide.width          = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    window.slide.height         = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-    window.slide.base           = new Object;
+    var tvm = {
+        width : window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+        height : window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+
+        init : function(){
+            body = document.getElementById('body');
+            body.style.overflow='hidden';
+
+            tvm.audio.init();
+        },
+
+        audio : {
+            play : function(){
+                var file = tvm.audio.files.shift();
+                var audio = document.getElementById('audio');
+                audio.src = 'aud/' + file.aud_file;
+                audio.onended = function(){ tvm.audio.play(); };
+                tvm.audio.files.push(file);
+            },
+            files : [],
+            init : function(){
+                $http
+                    .post('mdl/audios.php',{tvId:$scope.tvId,m:'registers'})
+                    .error(function(){  $location.path('/login'); })
+                    .success(function(json){
+                        tvm.audio.files = json;
+                        tvm.audio.play();
+                        tvm.images.init();
+                    });
+            }
+        },
+
+        images : {
+            init : function(){
+                $http
+                    .post('mdl/mensajes.php',{m:'registers',tvId:$scope.tvId})
+                    .error(function(){ $location.path('/login'); })
+                    .success(function(json){
+                        tvm.images.files = json;
+                        tvm.images.play()
+                    });
+            },
+            files : [],
+            play : function(){
+                console.log(tvm);
+            }
+        }
+    };
+
+    tvm.init();
+
+    //window.slide.base           = {};
 
     // Definir un objeto audio.
-    window.slide.audio          = new Object;
-    window.slide.audio.files    = new Array;
+    /*
+    window.slide.audio          = {};
+    window.slide.audio.files    = [];
     window.slide.audio.filesNum = 0;
     window.slide.audio.filesLen = function(){
         length = 0;
@@ -39,11 +86,11 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
             }
         }
 
-    };
+    };*/
 
     // Definir un objeto image.
-    window.slide.image          = new Object;
-    window.slide.image.files    = new Array;
+    /*window.slide.image          = {};
+    window.slide.image.files    = [];
     window.slide.image.filesNum = 0;
     window.slide.image.filesLen = function(){
         length = 0;
@@ -93,16 +140,17 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
     };
 
     // Definir una consola de informe. 
+    /*
     window.slide.console        = document.getElementById('consola');
     window.slide.console.log    = function(txt,callback=false){
         window.slide.console.innerHTML += txt;
         window.slide.console.scrollTop = window.slide.console.scrollTop +20;
         if(callback) callback();
-    }
+    }*/
 
 
     // Inicializar el formulario.
-    SessionFac.sessionStatus(function(){
+    /*SessionFac.sessionStatus(function(){
         $scope.tvId     = $routeParams.tvId;
         $scope.formView = true;
 
@@ -141,9 +189,9 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
 
         });
 
-    });
+    });*/
 
-    $scope.init = function(){
+    /*$scope.init = function(){
 
         // Solicitar datos básicos.
         window.slide.console.log("<br/>Solicitar datos básicos.",function(){
@@ -161,10 +209,10 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
             });            
         });
 
-    };
+    };*/
 
     // Función para descargar archivos de audio.
-    $scope.descargarAudios = function(){
+    /*$scope.descargarAudios = function(){
         window.slide.console.log("<br/>Solicitar lista de audios.",function(){
             $http.post('mdl/audios.php',{tvId:$scope.tvId,m:'registers'})
             .success(function(json){
@@ -193,10 +241,10 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
                 $location.path('/login');
             });            
         });
-    };
+    };*/
 
     //Función para descargar archivos de imagenes.
-    $scope.descargarImagenes = function(){
+    /*$scope.descargarImagenes = function(){
         if(window.slide.audio.tag.readyState===4){
             window.timer = null;
             delete window.timer;
@@ -236,12 +284,6 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
                 });
             });
         } 
-    };
+    };*/
 
-    /*
-    6 Tarea - Implementar lanzar presentación.
-
-    7 Tarea - Implementar barra de controlles para
-    manejar la presentación.
-    */
 });
