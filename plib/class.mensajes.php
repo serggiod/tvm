@@ -189,6 +189,42 @@
             }
         }
 
+        // Devuelve un objeto json
+        // con los datos de un monitor y
+        // sus respectivos mensajes. 
+        private $sql_lanzar_mensajes  = "select tv_id monitor, tv_back_color backgroundColor, tv_play_direction direction, tv_play_time time from tv_msg where tv_id=:tvId;";
+        private $sql_lanzar_textos = "select txt_msg textNode, txt_front_color color, txt_back_image backgroundImage, txt_font_family fontFamily, txt_font_size fontSize from tv_msg_txt where tv_id=:tvId;";
+        private $sql_lanzar_audios = "select aud_file src from tv_msg_audio where tv_id=:tvId;";
+        private function lanzarModel(){
+            if($this->checkStatus()){
+                
+                // Entrada.
+                $tvId=$this->sanitizeInt($this->json->tvId);
+                
+                // Mensajes.
+                $sql   = str_replace(':tvId',$tvId,$this->sql_lanzar_mensajes);
+                $query = $this->pdo->query($sql);
+                $json  = $query->fetch(PDO::FETCH_ASSOC);
+
+                // Textos.
+                $sql   = str_replace(':tvId',$tvId,$this->sql_lanzar_textos);
+                error_log($sql);
+                $query = $this->pdo->query($sql);
+                $json['mensajes']  = $query->fetchAll(PDO::FETCH_ASSOC);
+
+                // Audios.
+                $sql   = str_replace(':tvId',$tvId,$this->sql_lanzar_audios);
+                $query = $this->pdo->query($sql);
+                $json['audios']  = $query->fetchAll(PDO::FETCH_ASSOC);
+
+                // Salida.
+                header('content-type: application/json');
+                echo json_encode($json);
+            } else {
+                $this->notFound404();
+            }
+        }
+
         // Devuelve el conenido de un
         // archivo de imagen
         private function getFile(){
