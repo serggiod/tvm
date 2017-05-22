@@ -433,7 +433,7 @@ angular
 
         var txt = document.createElement('font');
         div.appendChild(txt);
-        txt,style.display = 'block';
+        txt.style.display = 'block';
         txt.style.position = 'absolute';
         txt.style.top = '0';
         txt.style.left = '0';
