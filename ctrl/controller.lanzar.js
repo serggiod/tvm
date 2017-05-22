@@ -1,8 +1,10 @@
-angular.module('application').controller('lanzarCtrl',function($scope,$http,$location,$routeParams,SessionFac){
+angular.module('application').controller('lanzarCtrl',function($scope,$http,$location,$routeParams,SessionFac,Fullscreen){
     
     // Variables por defecto.
     $scope.formView = true;
     $scope.tvId     = $routeParams.tvId;
+
+    if(!window.fullScreen) $location.path('/tv');
     
     // Definir un objeto diapositiva.
     var tvm = {
@@ -25,6 +27,7 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
                     tvm.imagesPlay()
                     tvm.audiosPlay()
                 });
+
         },
 
         audiosPlay : function(){
@@ -125,6 +128,10 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
                 deslizador.style.width  = tvm.width * tvm.model.mensajes.length + 'px';
                 deslizador.style.heigth = tvm.height + 'px';
             }
+
+            deslizador.addEventListener('animationiteration',function(){
+                    if(!window.fullScreen) $location.path('/tv');
+            });
 
             stageBase.appendChild(style);
             stageBase.appendChild(deslizador);        

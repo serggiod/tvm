@@ -1,4 +1,4 @@
-angular.module('application').controller('TvMsgCtrl',function($scope,$http,$location,$window,SessionFac){
+angular.module('application').controller('TvMsgCtrl',function($scope,$http,$location,$window,SessionFac,Fullscreen){
     
     // Ocultar el formulario.
     $scope.formView  = false;
@@ -256,7 +256,6 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
                             $http.post('mdl/tvmsg.php',json)
                             .success(function(rta){
 
-                                console.log(rta);
                                 if(rta==='false'){
                                     alert.attr('class','alert alert-danger');
                                     alert.html('<strong>Error:</strong> El monitor no se ha modificado en forma correcta.');
@@ -366,6 +365,7 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
 
     // Función lanzar.
     $scope.lanzar = function(id){
+        Fullscreen.all();
         $location.path('/lanzar/'+id);
     };
     

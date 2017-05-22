@@ -1,4 +1,4 @@
-angular.module('application',['ngRoute','ngSanitize','colorpicker.module']);
+angular.module('application',['ngRoute','ngSanitize','FBAngular','colorpicker.module']);
 
 /* RUTAS */
 angular.module('application').config(function($routeProvider){
