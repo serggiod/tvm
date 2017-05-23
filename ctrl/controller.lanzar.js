@@ -1,10 +1,9 @@
 angular.module('application').controller('lanzarCtrl',function($scope,$http,$location,$routeParams,SessionFac,Fullscreen){
     
     // Variables por defecto.
-    $scope.formView = true;
     $scope.tvId     = $routeParams.tvId;
 
-    if(!window.fullScreen) $location.path('/tv');
+    //if(!window.fullScreen) $location.path('/tv');
     
     // Definir un objeto diapositiva.
     var tvm = {
@@ -13,23 +12,87 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
 
         model:null,
         init : function(){
-            body = document.getElementById('body');
-            body.style.margin = '0';
-            body.style.padding = '0';
-            body.style.padding = '0';
-            body.style.overflow='hidden';
 
             $http
                 .post('mdl/mensajes.php',{m:'lanzarModel',tvId:$scope.tvId})
                 .error(function(){ $location.path('/login'); })
                 .success(function(json){
                     tvm.model = json;
-                    tvm.imagesPlay()
-                    tvm.audiosPlay()
+                    tvm.imagesPlay();
+                    tvm.audiosPlay();
+                    tvm.consola.init();
                 });
 
         },
 
+        consola:{
+            init : function(){
+                var frontColor = '#a8b110';
+                var backColor  = '#242a2a';
+
+                var consola = document.getElementById('consola');
+                consola.style.position = 'fixed';
+                consola.style.left    = '30px';
+                consola.style.right   = '30px';
+                consola.style.bottom  = '50px';
+                consola.style.height  = '20px';
+                consola.style.backgroundColor = backColor;
+                consola.style.zIndex  = '100';
+                consola.style.borderRadius = '10px';
+
+                var tv = document.createElement('div');
+                tv.style.position   = 'absolute';
+                tv.style.top        = '0';
+                tv.style.left       = '20px';
+                tv.style.color      = frontColor;
+                tv.style.fontSize   = '10px';
+                tv.style.fontWeight = 'bold';
+                tv.style.margin     = '5px';
+                tv.innerHTML = 'TV ' + tvm.model.monitor
+                consola.appendChild(tv);
+
+                stop = document.createElement('div');
+                stop.style.position = 'absolute';
+                stop.style.top      = '0';
+                stop.style.left     = '70px';
+                stop.style.width    = '10px';
+                stop.style.height   = '10px';
+                stop.style.margin   = '5px';
+                stop.style.backgroundColor = frontColor;
+                stop.onmouseover   = function(){ stop.style.cursor = 'pointer;'};
+                stop.onmousedown   = function(){ tvm.stop(); }
+                consola.appendChild(stop);
+
+                pause = document.createElement('div');
+                pause.style.position = 'absolute';
+                pause.style.top      = '0';
+                pause.style.left     = '90px';
+                pause.style.width    = '10px';
+                pause.style.height   = '10px';
+                pause.style.margin   = '5px';
+                pause.style.borderLeft  = '3px solid ' + frontColor;
+                pause.style.borderRight = '3px solid ' + frontColor;
+                pause.style.backgroundColor = backColor;
+                pause.onmouseover   = function(){ pause.style.cursor = 'pointer;'};
+                pause.onmousedown   = function(){ tvm.pause(); }
+                consola.appendChild(pause);
+
+                play = document.createElement('div');
+                play.style.position = 'absolute';
+                play.style.top      = '0';
+                play.style.left     = '110px';
+                play.style.width    = '0px';
+                play.style.height   = '0px';
+                play.style.margin   = '5px';
+                play.style.borderTop    = '5px solid transparent';
+                play.style.borderBottom = '5px solid transparent';
+                play.style.borderLeft   = '5px solid ' + frontColor;
+                play.onmouseover   = function(){ play.style.cursor = 'pointer;'};
+                play.onmousedown   = function(){ tvm.play(); }
+                consola.appendChild(play);
+
+            }
+        },
         audiosPlay : function(){
             var file = tvm.model.audios.shift();
             var audio = document.getElementById('audio');
@@ -42,7 +105,7 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
 
             // Contenedor base.
             var stageBase = document.getElementById('stageBase');
-            stageBase.style.position = 'relative';
+            stageBase.style.position = 'fixed';
             stageBase.style.top = '0';
             stageBase.style.left = '0';
             stageBase.style.width = tvm.width + 'px';
@@ -52,6 +115,7 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
             stageBase.style.margin = '0';
             stageBase.style.padding = '0';
             stageBase.style.overflow = 'hidden';
+            stageBase.style.zIndex = '100';
 
             // Animacion.
             var direction = tvm.model.direction
@@ -117,6 +181,7 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
             
             // Iniciar deslizador.
             var deslizador = document.createElement('div');
+            deslizador.id = 'deslizador';
             deslizador.className = 'tvmAnimationRun';
             deslizador.style.position = 'relative';
 
@@ -129,9 +194,9 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
                 deslizador.style.heigth = tvm.height + 'px';
             }
 
-            deslizador.addEventListener('animationiteration',function(){
+            deslizador.onanimationiteration = function(){
                     if(!window.fullScreen) $location.path('/tv');
-            });
+            };
 
             stageBase.appendChild(style);
             stageBase.appendChild(deslizador);        
@@ -172,6 +237,34 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
                 deslizador.appendChild(div);
             }
 
+        },
+
+        stop: function(){
+            var l = document.location || window.location;
+            l.href = '#/tv';
+            window.exitFullscreen();
+        },
+        pause: function(){
+            var audio = document.getElementById('audio');
+            audio.pause()
+
+            var deslizador = document.getElementById('deslizador');
+            deslizador.style.animationPlayState = 'paused';
+            deslizador.style.mozAnimationPlayState = 'paused';
+            deslizador.style.webkitanimationPlayState = 'paused';
+            deslizador.style.msAnimationPlayState = 'paused';
+            deslizador.style.oAnimationPlayState = 'paused';
+        },
+        play: function(){
+            var audio = document.getElementById('audio');
+            audio.play();
+
+            var deslizador = document.getElementById('deslizador');
+            deslizador.style.animationPlayState = 'running';
+            deslizador.style.mozAnimationPlayState = 'running';
+            deslizador.style.webkitanimationPlayState = 'running';
+            deslizador.style.msAnimationPlayState = 'running';
+            deslizador.style.oAnimationPlayState = 'running';
         }
     };
 
