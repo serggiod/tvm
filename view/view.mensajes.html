@@ -13,36 +13,114 @@
                 <img src="img/grid/anterior.png" border="0"/>
                 Volver
             </button>
+            <br/><br/>
             <!-- Boton 'Nuevo'. -->
-            <button type="button" class="btn btn-primary btn-sm" ng-click="nuevo()">
+            <!--<button type="button" class="btn btn-primary btn-sm" ng-click="nuevo()">
                 <img src="img/grid/nuevo.png" border="0"/>
                 Nuevo
-            </button>
+            </button>-->
 
-            <!-- Tabla de Mensajes -->
-            <table class="table table-bordered table-striped">
-                <tr>
-                    <td>MENSAJE</td>
-                    <td>COLOR</td>
-                    <td>FONDO</td>
-                    <td>FUENTE</td>
-                    <td>TAMAÑO</td>
-                    <td>ACCIONES</td>
-                </tr>
-                <tr ng-repeat="(k,mensaje) in model">
-                    <td>{{mensaje.txt_msg}}</td>
-                    <td style="background-color:{{mensaje.txt_front_color}};"></td>
-                    <td>{{mensaje.txt_back_image}}</td>
-                    <td>{{mensaje.txt_font_family}}</td>
-                    <td>{{mensaje.txt_font_size}}</td>
-                    <td>
-                        <img src="img/grid/visualizar.png" class="btn btn-info btn-xs" ng-click="visualizar(mensaje.txt_id);">    
-                        <img src="img/grid/modificar.png" class="btn btn-info btn-xs" ng-click="modificar(mensaje.txt_id);">
-                        <img src="img/grid/play.png" class="btn btn-success btn-xs" ng-click="play(k);">
-                        <img src="img/grid/eliminar.png" class="btn btn-danger btn-xs" ng-click="eliminar(mensaje.txt_id);">
-                    </td>
-                </tr>
-            </table>
+            <!-- Formulario mensajes -->
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Mensajes / {{titulo}}
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div ng-bind-html="alert"></div>
+                                    <textarea class="form-control input-sm" maxlength="250" ng-model="modelo.formulario.txt_msg"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <!-- Color del textto -->
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <input colorpicker type="text" class="form-control input-sm" ng-model="modelo.formulario.txt_front_color" style="background-color: {{modelo.formulario.txt_front_color}};"/>
+                                </div>
+
+                                <!-- Nombre de fuente -->
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <select class="form-control input-sm" ng-model="modelo.formulario.txt_font_family">
+                                        <option value="null">Nombre de la fuente</option>
+                                        <option ng-repeat="f in fnt" value="{{f}}">{{f}}</option>
+                                    </select>
+                                </div>
+
+                                <!-- Imagen de fondo -->
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <select class="form-control input-sm" ng-model="modelo.formulario.txt_back_image">
+                                        <option value="null">Imagen de fondo</option>
+                                        <option ng-repeat="b in bck" value="{{b}}">{{b}}</option>
+                                    </select>
+                                </div>
+
+                                <!-- Tamaño del texto -->
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <select class="form-control input-sm" ng-model="modelo.formulario.txt_font_size">
+                                        <option value="null">Tamaño del texto</option>
+                                        <option ng-repeat="s in sizes" value="{{s}}">{{s}}</option>                                    
+                                    </select>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="panel-footer text-right">
+                            <span ng-show="btnNuevo">
+                                <input type="button" class="btn btn-xs btn-danger" value="Cancelar" ng-click="btnNuevoCancelar()"/>
+                                <input type="button" class="btn btn-xs btn-success" value="Guardar" ng-click="btnNuevoAceptar()"/> 
+                            </span>
+                            <span ng-show="btnVisualizar">
+                                <input type="button" class="btn btn-xs btn-primary" value="Cerrar" ng-click="btnVisualizarAceptar()"/> 
+                            </span>
+                            <span ng-show="btnModificar">
+                                <input type="button" class="btn btn-xs btn-danger" value="Cancelar" ng-click="btnModificarCancelar()"/>
+                                <input type="button" class="btn btn-xs btn-success" value="Guardar" ng-click="btnModificarAceptar()"/> 
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla Mensajes -->
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Mensajes / Guardados
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <td>MENSAJE</td>
+                                    <td>COLOR</td>
+                                    <td>FUENTE</td>
+                                    <td>FONDO</td>
+                                    <td>TAMAÑO</td>
+                                    <td>ACCIONES</td>
+                                </tr>
+                                <tr ng-repeat="(k,mensaje) in modelo.registros">
+                                    <td>{{mensaje.txt_msg}}</td>
+                                    <td style="background-color:{{mensaje.txt_front_color}};"></td>
+                                    <td>{{mensaje.txt_font_family}}</td>
+                                    <td>{{mensaje.txt_back_image}}</td>
+                                    <td>{{mensaje.txt_font_size}}</td>
+                                    <td>
+                                        <img src="img/grid/visualizar.png" class="btn btn-info btn-xs" ng-click="visualizar(k);">    
+                                        <img src="img/grid/modificar.png" class="btn btn-info btn-xs" ng-click="modificar(k);">
+                                        <img src="img/grid/play.png" class="btn btn-success btn-xs" ng-click="play(k);">
+                                        <img src="img/grid/eliminar.png" class="btn btn-danger btn-xs" ng-click="eliminar(k);">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                </div>
+            </div>
 
         </div>
     </div>            

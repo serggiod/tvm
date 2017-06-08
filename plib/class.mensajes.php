@@ -77,12 +77,12 @@
             if($this->checkStatus()){
 
                 $return          = 'false';
-                $tv_id           = $this->sanitizeInt($this->json->tvId);
-                $txt_msg         = $this->sanitizeString($this->json->msg);
-                $txt_front_color = $this->sanitizeString($this->json->frontColor);
-                $txt_back_image  = $this->sanitizeString($this->json->backImage);
-                $txt_font_family = $this->sanitizeString($this->json->fontFamily);
-                $txt_font_size   = $this->sanitizeString($this->json->fontSize);
+                $tv_id           = $this->sanitizeInt($this->json->tv_id);
+                $txt_msg         = $this->sanitizeString($this->json->txt_msg);
+                $txt_front_color = $this->sanitizeString($this->json->txt_front_color);
+                $txt_back_image  = $this->sanitizeString($this->json->txt_back_image);
+                $txt_font_family = $this->sanitizeString($this->json->txt_font_family);
+                $txt_font_size   = $this->sanitizeString($this->json->txt_font_size);
 
                 $sql=str_replace(
                     array(':tv_id',':txt_msg',':txt_front_color',':txt_back_image',':txt_font_family',':txt_font_size'),
@@ -105,7 +105,7 @@
         private $sql_delete = "delete from tv_msg_txt where txt_id=:txt_id limit 1;";
         private function delete(){
             if($this->checkStatus()){
-                $txt_id=$this->sanitizeInt($this->json->txtId);
+                $txt_id=$this->sanitizeInt($this->json->txt_id);
                 $sql=str_replace(':txt_id',$txt_id,$this->sql_delete);
                 $query=$this->pdo->prepare($sql);
                 $return='false';
@@ -122,7 +122,7 @@
         private $sql_select = "select * from tv_msg_txt where txt_id=:txt_id;";
         private function select(){
             if($this->checkStatus()){
-                $txt_id=$this->sanitizeInt($this->json->txtId);
+                $txt_id=$this->sanitizeInt($this->json->txt_id);
                 $sql=str_replace(':txt_id',$txt_id,$this->sql_select);
                 $query=$this->pdo->query($sql);
                 $json=$query->fetch(PDO::FETCH_OBJ);
@@ -138,12 +138,12 @@
         private $sql_update = "update tv_msg_txt set txt_msg=':txt_msg',txt_front_color=':txt_front_color',txt_back_image=':txt_back_image',txt_font_family=':txt_font_family',txt_font_size=':txt_font_size' where txt_id=:txt_id limit 1;";
         private function update(){
             if($this->checkStatus()){
-                $txt_id=$this->sanitizeInt($this->json->txtId);
-                $txt_msg= $this->sanitizeString($this->json->txtMsg);
-                $txt_front_color=$this->sanitizeString($this->json->txtFrontColor);
-                $txt_back_image=$this->sanitizeString($this->json->txtBackImage);
-                $txt_font_family=$this->sanitizeString($this->json->txtFontFamily);
-                $txt_font_size=$this->sanitizeString($this->json->txtFontSize);
+                $txt_id=$this->sanitizeInt($this->json->txt_id);
+                $txt_msg=$this->sanitizeString($this->json->txt_msg);
+                $txt_front_color=$this->sanitizeString($this->json->txt_front_color);
+                $txt_back_image=$this->sanitizeString($this->json->txt_back_image);
+                $txt_font_family=$this->sanitizeString($this->json->txt_font_family);
+                $txt_font_size=$this->sanitizeString($this->json->txt_font_size);
                 $sql=str_replace(
                     array(':txt_id', ':txt_msg', ':txt_front_color', ':txt_back_image', ':txt_font_family', ':txt_font_size'),
                     array($txt_id,   $txt_msg,   $txt_front_color,   $txt_back_image,    $txt_font_family,  $txt_font_size),
