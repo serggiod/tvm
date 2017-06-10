@@ -56,13 +56,14 @@
         // Devuelve un objeto json
         // con la lista de mensajes
         // que pertenecen a un monitor.
-        private $sql_registers = "select * from tv_msg_txt where tv_id=:tvId;";
+        private $sql_registers = "select  txt_id, replace(replace(txt_msg,'^M','<br/>'),'\n','<br/>') txt_msg, txt_front_color, txt_back_image, txt_font_family, txt_font_size from tv_msg_txt where tv_id=:tvId;";
         private function registers(){
             if($this->checkStatus()){
                 $tvId=$this->sanitizeInt($this->json->tvId);
                 $sql   = str_replace(':tvId',$tvId,$this->sql_registers);
                 $query = $this->pdo->query($sql);
                 $json  = $query->fetchAll(PDO::FETCH_OBJ);
+                //$json->txt_msg = nl2br($json->txt_msg);
                 header('content-type: application/json');
                 echo json_encode($json);
             } else {
@@ -119,13 +120,14 @@
 
         // Selecciona un mensaje y
         // lo devuelve como un objeto json.
-        private $sql_select = "select * from tv_msg_txt where txt_id=:txt_id;";
+        private $sql_select = "select txt_id, replace(replace(txt_msg,'^M','<br/>'),'\n','<br/>') txt_msg, txt_front_color, txt_back_image, txt_font_family, txt_font_size  from tv_msg_txt where txt_id=:txt_id;";
         private function select(){
             if($this->checkStatus()){
                 $txt_id=$this->sanitizeInt($this->json->txt_id);
                 $sql=str_replace(':txt_id',$txt_id,$this->sql_select);
                 $query=$this->pdo->query($sql);
                 $json=$query->fetch(PDO::FETCH_OBJ);
+                $json->txt_msg = nl2br($json->txt_msg);
                 header('content-type: application/json');
                 echo json_encode($json);
             } else {
@@ -193,7 +195,7 @@
         // con los datos de un monitor y
         // sus respectivos mensajes. 
         private $sql_lanzar_mensajes  = "select tv_id monitor, tv_back_color backgroundColor, tv_play_direction direction, tv_play_time time from tv_msg where tv_id=:tvId;";
-        private $sql_lanzar_textos = "select txt_msg textNode, txt_front_color color, txt_back_image backgroundImage, txt_font_family fontFamily, txt_font_size fontSize from tv_msg_txt where tv_id=:tvId;";
+        private $sql_lanzar_textos = "select replace(replace(txt_msg,'^M','<br/>'),'\n','<br/>') textNode, txt_front_color color, txt_back_image backgroundImage, txt_font_family fontFamily, txt_font_size fontSize from tv_msg_txt where tv_id=:tvId;";
         private $sql_lanzar_audios = "select aud_file src from tv_msg_audio where tv_id=:tvId;";
         private function lanzarModel(){
             if($this->checkStatus()){
@@ -208,7 +210,6 @@
 
                 // Textos.
                 $sql   = str_replace(':tvId',$tvId,$this->sql_lanzar_textos);
-                error_log($sql);
                 $query = $this->pdo->query($sql);
                 $json['mensajes']  = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -220,6 +221,7 @@
                 // Salida.
                 header('content-type: application/json');
                 echo json_encode($json);
+                //print_r($json);
             } else {
                 $this->notFound404();
             }
