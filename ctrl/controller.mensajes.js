@@ -180,6 +180,7 @@ angular
         $scope.titulo = 'Visualizar';
         $scope.alert = '';
         $scope.modelo.formulario = $scope.modelo.registros[k];
+        $scope.modelo.formulario.txt_msg = $scope.modelo.formulario.txt_msg.replace(/<br\/>/g,'\n');
         $scope.btnNuevo = false;
         $scope.btnVisualizar = true;
         $scope.btnModifcar = true;
@@ -194,6 +195,7 @@ angular
             $scope.btnVIsualizar = false;
             $scope.btnModificar = true;
             $scope.modelo.formulario = $scope.modelo.registros[k];
+            $scope.modelo.formulario.txt_msg = $scope.modelo.formulario.txt_msg.replace(/<br\/>/g,'\n');
         }
     };
 
