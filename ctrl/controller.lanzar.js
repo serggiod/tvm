@@ -232,6 +232,9 @@ angular.module('application').controller('lanzarCtrl',function($scope,$http,$loc
                 txt.style.fontFamily = "'" + tvm.model.mensajes[i].fontFamily + "'";
                 txt.style.fontSize = tvm.model.mensajes[i].fontSize + 'px';
                 txt.style.verticalAlign = 'middle';
+                
+                tvm.model.mensajes[i].textNode = tvm.model.mensajes[i].textNode.split('#');
+                tvm.model.mensajes[i].textNode = tvm.model.mensajes[i].textNode.join('<br/>');
                 txt.innerHTML = tvm.model.mensajes[i].textNode;
 
                 deslizador.appendChild(div);

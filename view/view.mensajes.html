@@ -105,7 +105,7 @@
                                     <td>ACCIONES</td>
                                 </tr>
                                 <tr ng-repeat="(k,mensaje) in modelo.registros">
-                                    <td ng-bind-html="mensaje.txt_msg"></td>
+                                    <td>{{mensaje.txt_msg}}</td>
                                     <td style="background-color:{{mensaje.txt_front_color}};"></td>
                                     <td>{{mensaje.txt_font_family}}</td>
                                     <td>{{mensaje.txt_back_image}}</td>

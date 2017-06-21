@@ -144,7 +144,7 @@ angular
             .error(function(){ $location.path('/login'); });
     };
 
-    // Función volver.
+        // Función volver.
     $scope.volver = function(){
         $location.path('/tv');
     };
@@ -180,7 +180,6 @@ angular
         $scope.titulo = 'Visualizar';
         $scope.alert = '';
         $scope.modelo.formulario = $scope.modelo.registros[k];
-        $scope.modelo.formulario.txt_msg = $scope.modelo.formulario.txt_msg.replace(/<br\/>/g,'\n');
         $scope.btnNuevo = false;
         $scope.btnVisualizar = true;
         $scope.btnModifcar = true;
@@ -189,13 +188,12 @@ angular
     // Función modificar.
     $scope.modificar = function(k){
         if(confirm('¿Esta seguro que desea modificar este mensaje?')){
-            $scope.titulo = 'Modificar';
+            $scope.titulo = 'Modificar'; 
             $scope.alert = '';
             $scope.btnNuevo = false;
             $scope.btnVIsualizar = false;
             $scope.btnModificar = true;
             $scope.modelo.formulario = $scope.modelo.registros[k];
-            $scope.modelo.formulario.txt_msg = $scope.modelo.formulario.txt_msg.replace(/<br\/>/g,'\n');
         }
     };
 
@@ -238,6 +236,9 @@ angular
         txt.style.color = $scope.modelo.registros[k].txt_front_color;
         txt.style.fontFamily = "'" + $scope.modelo.registros[k].txt_font_family + "'";
         txt.style.fontSize = $scope.modelo.registros[k].txt_font_size + 'px';
+
+        $scope.modelo.registros[k].txt_msg = $scope.modelo.registros[k].txt_msg.split('#');
+        $scope.modelo.registros[k].txt_msg = $scope.modelo.registros[k].txt_msg.join('<br/>');
         txt.innerHTML = $scope.modelo.registros[k].txt_msg;
 
         var top = parseInt((window.innerHeight - txt.clientHeight) /2).toString();
