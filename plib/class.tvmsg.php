@@ -1,10 +1,10 @@
 <?php
     class tvmsg extends main {
         private $json          = null;    
-        private $sql_registers = "select tv_id id, concat('Monitor-Tv ',tv_id) tv,tv_back_color backcolor, tv_play_direction playdirection, tv_play_time playtime from tv_msg order by tv_id;";
-        private $sql_insert    = "insert into tv_msg (tv_back_color,tv_play_direction,tv_play_time) values (':back_color',':play_direction',':play_time'); update tv_msg_txt set tv_id=last_insert_id() where tv_id=':tv_id';"; 
+        private $sql_registers = "select tv_id id, concat('Monitor-Tv ',tv_id) tv,tv_back_color backcolor, tv_play_direction playdirection, tv_play_time playtime, tv_interval playinterval from tv_msg order by tv_id;";
+        private $sql_insert    = "insert into tv_msg (tv_back_color,tv_play_direction,tv_play_time,tv_interval) values (':back_color',':play_direction',':play_time',':play_interval'); update tv_msg_txt set tv_id=last_insert_id() where tv_id=':tv_id';"; 
         
-        private $sql_update    = "update tv_msg set tv_back_color=':back_color',tv_play_direction=':play_direction',tv_play_time=':play_time' where tv_id=:id;";
+        private $sql_update    = "update tv_msg set tv_back_color=':back_color',tv_play_direction=':play_direction',tv_play_time=':play_time',tv_interval=':play_interval' where tv_id=:id;";
         private $sql_delete    = "delete from tv_msg where tv_id=:id;";
 
         private $sql_select_audio  = "select * from tv_msg_audio where tv_id=':tv_id' order by orden;";
@@ -48,9 +48,10 @@
                 $back_color=$this->sanitizeString($this->json->back_color);
                 $play_direction=$this->sanitizeString($this->json->play_direction);
                 $play_time=$this->sanitizeString($this->json->play_time);
+                $play_interval=$this->sanitizeString($this->json->play_interval);
                 $sql=str_replace(
-                    array(':back_color',':play_direction',':play_time'),
-                    array( $back_color,  $play_direction,  $play_time),
+                    array(':back_color',':play_direction',':play_time',':play_interval'),
+                    array( $back_color,  $play_direction,  $play_time,  $play_interval),
                     $this->sql_insert
                 );
                 $query = $this->pdo->prepare($sql);
@@ -81,9 +82,10 @@
                 $back_color=$this->sanitizeString($this->json->back_color);
                 $play_direction=$this->sanitizeString($this->json->play_direction);
                 $play_time=$this->sanitizeString($this->json->play_time);
+                $play_interval=$this->sanitizeString($this->json->play_interval);
                 $sql=str_replace(
-                    array(':id',':back_color',':play_direction',':play_time'),
-                    array( $id, $back_color,  $play_direction,  $play_time),
+                    array(':id',':back_color',':play_direction',':play_time',':play_interval'),
+                    array( $id, $back_color,  $play_direction,  $play_time,   $play_interval),
                     $this->sql_update
                 );
                 $query=$this->pdo->prepare($sql);

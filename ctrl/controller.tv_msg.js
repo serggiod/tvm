@@ -37,20 +37,40 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
         var hora      = $('<input type="number" min="0" max="23" value="0" class="form-control"/>');
         var minuto    = $('<input type="number" min="0" max="59" value="0" class="form-control"/>');
         var segundo   = $('<input type="number" min="0" max="59" value="0" class="form-control"/>');
+        var ihora     = $('<input type="number" min="0" max="23" value="0" class="form-control"/>');
+        var iminuto   = $('<input type="number" min="0" max="59" value="0" class="form-control"/>');
+        var isegundo  = $('<input type="number" min="0" max="59" value="0" class="form-control"/>');
+        var tplaytime = $('<span class="input-group-addon">Duración:</span>');
+        var tplayinterval = $('<span class="input-group-addon">Intervalo:</span>');
         var divisor1   = $('<span class="input-group-addon">:</span>');
         var divisor2   = $('<span class="input-group-addon">:</span>');
-        var hhdisplay = $('<div class="input-group"></div>');
+        var divisor3   = $('<span class="input-group-addon">:</span>');
+        var divisor4   = $('<span class="input-group-addon">:</span>');
+        var hhdisplay  = $('<div class="input-group"></div>');
+        var ihdisplay  = $('<div class="input-group"></div>');
 
-        hhdisplay.append(hora);
-        hhdisplay.append(divisor1);
-        hhdisplay.append(minuto);
-        hhdisplay.append(divisor2);
-        hhdisplay.append(segundo);
+        hhdisplay
+            .append(tplaytime)
+            .append(hora)
+            .append(divisor1)
+            .append(minuto)
+            .append(divisor2)
+            .append(segundo);
 
-        form.append(alert);
-        form.append(color);
-        form.append(direction);
-        form.append(hhdisplay);
+        ihdisplay
+            .append(tplayinterval)
+            .append(ihora)
+            .append(divisor3)
+            .append(iminuto)
+            .append(divisor4)
+            .append(isegundo);
+
+        form
+            .append(alert)
+            .append(color)
+            .append(direction)
+            .append(hhdisplay)
+            .append(ihdisplay);
         
         var formNuevo = BootstrapDialog.show({
             type:BootstrapDialog.TYPE_PRIMARY,
@@ -73,9 +93,17 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
                     delete hora;
                     delete minuto;
                     delete segundo;
+                    delete ihora;
+                    delete iminuto;
+                    delete isegundo;
+                    delete tplaytime;
+                    delete tplayinterval;
                     delete divisor1;
                     delete divisor2;
+                    delete divisor3;
+                    delete divisor4;
                     delete hhdisplay;
+                    delete ihdisplay;                   
                     delete formNuevo;
                 }
             },{
@@ -86,6 +114,7 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
                         back_color:color.colorpicker('getValue'),
                         play_direction:direction.val(),
                         play_time:hora.val()+':'+minuto.val()+':'+segundo.val(),
+                        play_interval:ihora.val()+':'+iminuto.val()+':'+isegundo.val(),
                         m:'insert'
                     };
 
@@ -109,9 +138,17 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
                             delete hora;
                             delete minuto;
                             delete segundo;
+                            delete ihora;
+                            delete iminuto;
+                            delete isegundo;
+                            delete tplaytime;
+                            delete tplayinterval;
                             delete divisor1;
                             delete divisor2;
+                            delete divisor3;
+                            delete divisor4;
                             delete hhdisplay;
+                            delete ihdisplay;                   
                             delete formNuevo;
                         }
 
@@ -142,12 +179,14 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
             var alert = $('<div class="alert alert-warning"><strong>Atención:</strong> Este formulario es de solo lectura.</div>');
             var color = $('<input class="form-control" style="background-color:'+json.tv_back_color+' !important;" value="'+json.tv_back_color+'" readonly="true"/>');
             var direction = $('<input class="form-control" value="'+json.tv_play_direction+'"/>');
-            var time  = $('<input class="form-control" value="'+json.tv_play_time+'"/>');
+            var time  = $('<div class="input-group"><span class="input-group-addon">Duración:</span><input class="form-control" value="'+json.tv_play_time+'"/></div>');
+            var interval  = $('<div class="input-group"><span class="input-group-addon">Intervalo:</span><input class="form-control" value="'+json.tv_interval+'"/></div>');
             
-            form.append(alert);
-            form.append(color);
-            form.append(direction);
-            form.append(time);
+            form.append(alert)
+                .append(color)
+                .append(direction)
+                .append(time)
+                .append(interval);
 
             var formVisualizar = BootstrapDialog.show({
                 type:BootstrapDialog.TYPE_PRIMARY,
@@ -189,6 +228,7 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
             .success(function(json){
 
                 hh = json.tv_play_time.split(':');
+                ih = json.tv_interval.split(':');
                 var form      = $('<div class="form"></div>');
                 var alert     = $('<div class="alert alert-warning"><strong>Atención:</strong> Con este formulario puede modificar un monitor.</div>');
                 var color     = $('<div class="input-group"><input type="text" value="" class="form-control"/><span class="input-group-addon"><i></i></span></div>'); 
@@ -196,20 +236,36 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
                 var hora      = $('<input type="number" min="0" max="23" value="'+hh[0]+'" class="form-control"/>');
                 var minuto    = $('<input type="number" min="0" max="59" value="'+hh[1]+'" class="form-control"/>');
                 var segundo   = $('<input type="number" min="0" max="59" value="'+hh[2]+'" class="form-control"/>');
+                var ihora     = $('<input type="number" min="0" max="23" value="'+ih[0]+'" class="form-control"/>');
+                var iminuto   = $('<input type="number" min="0" max="59" value="'+ih[1]+'" class="form-control"/>');
+                var isegundo  = $('<input type="number" min="0" max="59" value="'+ih[2]+'" class="form-control"/>');
                 var divisor1  = $('<span class="input-group-addon">:</span>');
                 var divisor2  = $('<span class="input-group-addon">:</span>');
-                var hhdisplay = $('<div class="input-group"></div>');
+                var divisor3  = $('<span class="input-group-addon">:</span>');
+                var divisor4  = $('<span class="input-group-addon">:</span>');
+                var hhdisplay = $('<div class="input-group"><span class="input-group-addon">Duración:</span></div>');
+                var ihdisplay = $('<div class="input-group"><span class="input-group-addon">Intervalo:</span></div>');
 
-                hhdisplay.append(hora);
-                hhdisplay.append(divisor1);
-                hhdisplay.append(minuto);
-                hhdisplay.append(divisor2);
-                hhdisplay.append(segundo);
+                hhdisplay
+                    .append(hora)
+                    .append(divisor1)
+                    .append(minuto)
+                    .append(divisor2)
+                    .append(segundo);
 
-                form.append(alert);
-                form.append(color);
-                form.append(direction);
-                form.append(hhdisplay);
+                ihdisplay
+                    .append(ihora)
+                    .append(divisor3)
+                    .append(iminuto)
+                    .append(divisor4)
+                    .append(isegundo);
+
+                form
+                    .append(alert)
+                    .append(color)
+                    .append(direction)
+                    .append(hhdisplay)
+                    .append(ihdisplay);
                 
                 var formModificar = BootstrapDialog.show({
                     type:BootstrapDialog.TYPE_PRIMARY,
@@ -233,9 +289,13 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
                             delete hora;
                             delete minuto;
                             delete segundo;
+                            delete ihora;
+                            delete iminuto;
+                            delete isegundo;
                             delete divisor1;
                             delete divisor2;
                             delete hhdisplay;
+                            delete ihdisplay;
                             delete formModificar;
                         }
                     },{
@@ -248,6 +308,7 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
                                 back_color:color.colorpicker('getValue'),
                                 play_direction:direction.val(),
                                 play_time:hora.val()+':'+minuto.val()+':'+segundo.val(),
+                                play_interval:ihora.val()+':'+iminuto.val()+':'+isegundo.val(),
                                 m:'update'
                             };
 
@@ -273,9 +334,13 @@ angular.module('application').controller('TvMsgCtrl',function($scope,$http,$loca
                                     delete hora;
                                     delete minuto;
                                     delete segundo;
+                                    delete ihora;
+                                    delete iminuto;
+                                    delete isegundo;
                                     delete divisor1;
                                     delete divisor2;
                                     delete hhdisplay;
+                                    delete ihdisplay;
                                     delete formModificar;
                                 }
 

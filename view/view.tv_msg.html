@@ -21,6 +21,7 @@
                     <td>FONDO</td>
                     <td>DIRECCION</td>
                     <td>TIEMPO</td>
+                    <td>INTERVALO</td>
                     <td>ACCIONES</td>
                 </tr>
                 <tr ng-repeat="mensaje in mensajes">
@@ -28,6 +29,7 @@
                     <td style="background-color:{{mensaje.backcolor}};"></td>
                     <td>{{mensaje.playdirection}}</td>
                     <td>{{mensaje.playtime}}</td>
+                    <td>{{mensaje.playinterval}}</td>
                     <td>
                         <img src="img/grid/visualizar.png" class="btn btn-info btn-xs" ng-click="visualizar(mensaje.id);">    
                         <img src="img/grid/modificar.png" class="btn btn-info btn-xs" ng-click="modificar(mensaje.id);">    
